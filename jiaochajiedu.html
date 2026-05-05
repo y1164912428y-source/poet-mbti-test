@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诗人 × MBTI 交叉解读</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-paper: #f5f0e6;
+            --bg-dark: #2c2c2c;
+            --accent-red: #c94043;
+            --accent-green: #4a7c59;
+            --accent-gold: #b8860b;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #d4c5a9;
+            --shadow: rgba(0,0,0,0.1);
+            --nt-purple: #8b5cf6;
+            --nf-green: #22c55e;
+            --sj-blue: #3b82f6;
+            --sp-yellow: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Serif SC', serif;
+            background: var(--bg-paper);
+            color: var(--text-dark);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 20% 30%, rgba(201,64,67,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(74,124,89,0.03) 0%, transparent 50%),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(212,197,169,0.1) 50px,
+                    rgba(212,197,169,0.1) 51px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(212,197,169,0.1) 50px,
+                    rgba(212,197,169,0.1) 51px
+                );
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 头部样式 */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-family: 'ZCOOL XiaoWei', serif;
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+        }
+
+        header h1 span {
+            color: var(--accent-red);
+        }
+
+        header .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        header .hint {
+            font-size: 0.95rem;
+            color: var(--accent-gold);
+            background: linear-gradient(135deg, rgba(184,134,11,0.1), rgba(201,64,67,0.1));
+            padding: 12px 24px;
+            border-radius: 25px;
+            display: inline-block;
+            border: 1px dashed var(--border-color);
+        }
+
+        /* 诗人卡片网格 */
+        .poets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+            padding: 20px 0;
+        }
+
+        .poet-card {
+            background: linear-gradient(145deg, #fff 0%, var(--bg-paper) 100%);
+            border-radius: 16px;
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 20px var(--shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .poet-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold), var(--accent-green));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .poet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            border-color: var(--accent-gold);
+        }
+
+        .poet-card:hover::before {
+            opacity: 1;
+        }
+
+        .poet-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            border: 3px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .poet-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .poet-code {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-red);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .poet-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .poet-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .poet-tag {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            background: rgba(201,64,67,0.1);
+            color: var(--accent-red);
+            border-radius: 12px;
+            border: 1px solid rgba(201,64,67,0.2);
+        }
+
+        .view-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--accent-red), #a83239);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn:hover {
+            background: linear-gradient(135deg, #a83239, var(--accent-red));
+            transform: scale(1.02);
+        }
+
+        /* 详情页样式 */
+        .detail-page {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .detail-page.active {
+            display: block;
+        }
+
+        .home-page.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 面包屑导航 */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--accent-red);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent-gold);
+            text-decoration: underline;
+        }
+
+        .breadcrumb span {
+            color: var(--border-color);
+        }
+
+        /* 诗人详情头部 */
+        .poet-detail-header {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            background: linear-gradient(135deg, #fff, var(--bg-paper));
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+            margin-bottom: 40px;
+            box-shadow: 0 4px 25px var(--shadow);
+        }
+
+        .poet-detail-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-gold);
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .poet-detail-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .poet-detail-info {
+            flex: 1;
+        }
+
+        .poet-detail-code {
+            font-size: 1.2rem;
+            color: var(--accent-red);
+            margin-bottom: 5px;
+        }
+
+        .poet-detail-title {
+            font-family: 'ZCOOL XiaoWei', serif;
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .poet-detail-desc {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            padding: 15px;
+            background: rgba(201,64,67,0.05);
+            border-left: 4px solid var(--accent-red);
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* MBTI组合网格 */
+        .mbti-section-title {
+            font-family: 'ZCOOL XiaoWei', serif;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            text-align: center;
+            margin: 40px 0 30px;
+            position: relative;
+        }
+
+        .mbti-section-title::before,
+        .mbti-section-title::after {
+            content: '◆';
+            margin: 0 15px;
+            color: var(--accent-gold);
+        }
+
+        /* MBTI分组标签 */
+        .mbti-group-labels {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .mbti-group-label {
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .mbti-group-label.nt {
+            background: rgba(139,92,246,0.15);
+            color: var(--nt-purple);
+            border: 1px solid rgba(139,92,246,0.3);
+        }
+
+        .mbti-group-label.nf {
+            background: rgba(34,197,94,0.15);
+            color: var(--nf-green);
+            border: 1px solid rgba(34,197,94,0.3);
+        }
+
+        .mbti-group-label.sj {
+            background: rgba(59,130,246,0.15);
+            color: var(--sj-blue);
+            border: 1px solid rgba(59,130,246,0.3);
+        }
+
+        .mbti-group-label.sp {
+            background: rgba(245,158,11,0.15);
+            color: var(--sp-yellow);
+            border: 1px solid rgba(245,158,11,0.3);
+        }
+
+        .mbti-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .mbti-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 3px 15px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .mbti-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+        }
+
+        .mbti-card.nt { border-top: 4px solid var(--nt-purple); }
+        .mbti-card.nf { border-top: 4px solid var(--nf-green); }
+        .mbti-card.sj { border-top: 4px solid var(--sj-blue); }
+        .mbti-card.sp { border-top: 4px solid var(--sp-yellow); }
+
+        .mbti-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .mbti-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .mbti-card-title span {
+            color: var(--accent-red);
+        }
+
+        .mbti-stars {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .mbti-stars .empty {
+            color: #ddd;
+        }
+
+        .mbti-combo-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: rgba(184,134,11,0.08);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .mbti-combo-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 50px auto;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--bg-dark), #444);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(135deg, #444, var(--bg-dark));
+            transform: scale(1.05);
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .poet-detail-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .poet-detail-avatar {
+                width: 120px;
+                height: 120px;
+            }
+
+            .poet-detail-desc {
+                text-align: left;
+            }
+
+            .mbti-group-labels {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .poets-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+            }
+
+            header .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .poet-card {
+                padding: 15px;
+            }
+
+            .mbti-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 图片占位符 */
+        .avatar-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="home-page" id="homePage">
+            <header>
+                <h1>诗人 <span>×</span> MBTI 交叉解读</h1>
+                <p class="subtitle">20种诗人人格 × 16种MBTI = 320种独特人格组合<br>探索你的诗人人格与 MBTI 类型碰撞后的化学反应</p>
+                <p class="hint">选择一位诗人，查看 16 种 MBTI 交叉解读</p>
+            </header>
+            <div class="poets-grid" id="poetsGrid"></div>
+        </div>
+
+        <div class="detail-page" id="detailPage">
+            <div class="breadcrumb">
+                <a href="#" onclick="showHome()">首页</a>
+                <span>›</span>
+                <span>诗人×MBTI</span>
+                <span>›</span>
+                <span id="breadcrumbPoet"></span>
+            </div>
+            <div class="poet-detail-header">
+                <div class="poet-detail-avatar" id="detailAvatar"></div>
+                <div class="poet-detail-info">
+                    <div class="poet-detail-code" id="detailCode"></div>
+                    <h2 class="poet-detail-title" id="detailTitle"></h2>
+                    <p class="poet-detail-desc" id="detailDesc"></p>
+                </div>
+            </div>
+            <h3 class="mbti-section-title" id="mbtiSectionTitle"></h3>
+            <div class="mbti-group-labels">
+                <div class="mbti-group-label nt">🎯 分析家组 NT</div>
+                <div class="mbti-group-label nf">🌱 外交家组 NF</div>
+                <div class="mbti-group-label sj">🛡️ 守护者组 SJ</div>
+                <div class="mbti-group-label sp">🎨 探险家组 SP</div>
+            </div>
+            <div class="mbti-grid" id="mbtiGrid"></div>
+            <button class="back-btn" onclick="showHome()">← 返回全部诗人</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>诗人 × MBTI 交叉解读 | 探索古典诗词与现代人格的奇妙碰撞</p>
+    </footer>
+
+    <script>
+        // 诗人图片URL映射 (已全部替换为你本地的20张图片路径)
+        const poetImages = {
+            'LB-WILD': 'images/LB-WILD.jpg',
+            'DF-EMO': 'images/DF-EMO.jpg',
+            'SS-CHILL': 'images/SS-CHILL.jpg',
+            'WW-ZEN': 'images/WW-ZEN.jpg',
+            'LQZ-SASS': 'images/LQZ-SASS.jpg',
+            'XQJ-FIGHT': 'images/XQJ-FIGHT.jpg',
+            'BJY-WORK': 'images/BJY-WORK.jpg',
+            'LSY-BE': 'images/LSY-BE.jpg',
+            'TYM-FARM': 'images/TYM-FARM.jpg',
+            'LZY-ALONE': 'images/LZY-ALONE.jpg',
+            'LY-CAT': 'images/LY-CAT.jpg',
+            'CC-BOSS': 'images/CC-BOSS.jpg',
+            'MHR-FLAT': 'images/MHR-FLAT.jpg',
+            'HZZ-SOCIAL': 'images/HZZ-SOCIAL.jpg',
+            'DM-PLAY': 'images/DM-PLAY.jpg',
+            'WAS-RULE': 'images/WAS-RULE.jpg',
+            'YXJ-FREE': 'images/YXJ-FREE.jpg',
+            'QY-SAD': 'images/QY-SAD.jpg',
+            'NL-LOVE': 'images/NL-LOVE.jpg',
+            'CS-HARD': 'images/CS-HARD.jpg'
+        };
+
+        // 诗人数据
+        const poets = [
+            { code: 'LB-WILD', name: '李白', mbti: 'ENFP', tags: ['先天反骨圣体', '职场整顿者'], desc: '他的诗里全是酒和月亮，但你知道他最厉害的是什么吗？是把皇帝都当陪衬的顶级自信。' },
+            { code: 'DF-EMO', name: '杜甫', mbti: 'INFJ', tags: ['重度内耗专家', '操心命'], desc: '别人写诗是为了开心，他写诗是为了给苍生记账。房都被秋风吹破了还在想国家大事。' },
+            { code: 'SS-CHILL', name: '苏轼', mbti: 'ENFP', tags: ['顶级乐天派', '荒野美食家'], desc: '被贬到哪儿，哪儿就是美食天堂。被关进监狱也能写出《赤壁赋》，这人心态绝了。' },
+            { code: 'WW-ZEN', name: '王维', mbti: 'ISFP', tags: ['佛系青年', '大厂裸辞隐居者'], desc: '十五岁卷进职场，六十岁还在体制内，但他早就把禅意活成了日常。' },
+            { code: 'LQZ-SASS', name: '李清照', mbti: 'ESTP', tags: ['千古第一拽姐', '清醒独立大女主'], desc: '赌书泼茶是浪漫，怼天怼地是日常。把酒喝到微醺还要写词diss前夫，这姐姐太飒了。' },
+            { code: 'XQJ-FIGHT', name: '辛弃疾', mbti: 'ESTJ', tags: ['武德充沛', '六边形狂战士'], desc: '文能提笔安天下，武能上马定乾坤。就是脾气有点冲，看谁都不顺眼。' },
+            { code: 'BJY-WORK', name: '白居易', mbti: 'ESFJ', tags: ['现实主义打工人', 'KPI狂魔'], desc: '写诗要写得老太能懂，做官要做到粉丝点赞。他可能是最早的流量明星。' },
+            { code: 'LSY-BE', name: '李商隐', mbti: 'INFP', tags: ['BE美学大师', '究极谜语人'], desc: '他的诗美到让人窒息，但没人能搞清楚他在写什么。这就是朦胧诗派的顶流。' },
+            { code: 'TYM-FARM', name: '陶渊明', mbti: 'ISFP', tags: ['归隐区UP主', '拒绝内卷第一人'], desc: '不为五斗米折腰？那是没被房贷逼过。他用一生证明：躺平也是门艺术。' },
+            { code: 'LZY-ALONE', name: '柳宗元', mbti: 'INTJ', tags: ['孤寡老人', '独自美丽'], desc: '被贬到柳州，一个人也能把荒山变成景点。只是越孤独越有才华，越才华越孤独。' },
+            { code: 'LY-CAT', name: '陆游', mbti: 'ISTJ', tags: ['重度猫奴', '意难平老兵'], desc: '一边写诗爱国，一边给猫写诗。王师北定中原日，记得先喂我的猫。' },
+            { code: 'CC-BOSS', name: '曹操', mbti: 'ENTJ', tags: ['霸道总裁', '乱世枭雄'], desc: '别人是老板，他是老板中的老板。宁可我负天下人，不可天下人负我。' },
+            { code: 'MHR-FLAT', name: '孟浩然', mbti: 'ISFP', tags: ['躺平鼻祖', '社交漏斗'], desc: '想当官但社恐，不当官但穷开心。他是第一个把佛系写进DNA的人。' },
+            { code: 'HZZ-SOCIAL', name: '贺知章', mbti: 'ESFP', tags: ['四明狂客', '退休社牛老翁'], desc: '八十岁还能social全场，金龟换酒喝到断片。他是古代最有排面的退休老干部。' },
+            { code: 'DM-PLAY', name: '杜牧', mbti: 'ESTP', tags: ['风流才子', '夜店小王子'], desc: '十年一觉扬州梦，赢得青楼薄幸名。他是古代夜生活的天花板。' },
+            { code: 'WAS-RULE', name: '王安石', mbti: 'INTJ', tags: ['铁腕卷王', '变法狂人'], desc: '推行新法，怼遍天下。不是在卷，就是在卷的路上。司马光都拿他没办法。' },
+            { code: 'YXJ-FREE', name: '鱼玄机', mbti: 'ENTP', tags: ['先锋女性', '精神独立者'], desc: '唐代最野的小姐姐，才华碾压一票男人，就是命有点苦。' },
+            { code: 'QY-SAD', name: '屈原', mbti: 'INFJ', tags: ['究极理想主义', '精神洁癖'], desc: '举世皆浊我独清，众人皆醉我独醒。可惜没人听，最后只好去跳江。' },
+            { code: 'NL-LOVE', name: '纳兰性德', mbti: 'INFP', tags: ['纯爱战神', '抑郁贵公子'], desc: '含着金汤匙出生，偏偏写词写到心碎。人生若只如初见，可惜初见即永远。' },
+            { code: 'CS-HARD', name: '岑参', mbti: 'ESTP', tags: ['边塞特种兵', '极限运动爱好者'], desc: '别人去边塞是受苦，他去边塞是冒险。雪满天山他写诗，火山五月他看风景。' }
+        ];
+
+        // MBTI数据
+        const mbtiTypes = [
+            // 分析家组 NT
+            { type: 'INTJ', name: '建筑师', group: 'nt', traits: ['战略思维', '独立自主', '追求完美', '高标准'] },
+            { type: 'INTP', name: '逻辑学家', group: 'nt', traits: ['理性分析', '好奇心强', '逻辑清晰', '内向思考'] },
+            { type: 'ENTJ', name: '指挥官', group: 'nt', traits: ['领导力强', '决策果断', '战略眼光', '执行力高'] },
+            { type: 'ENTP', name: '辩论家', group: 'nt', traits: ['思维活跃', '善于辩论', '创意无限', '挑战权威'] },
+            // 外交家组 NF
+            { type: 'INFJ', name: '提倡者', group: 'nf', traits: ['理想主义', '洞察人心', '富有同理心', '追求意义'] },
+            { type: 'INFP', name: '调停者', group: 'nf', traits: ['浪漫主义', '价值观强', '善于倾听', '追求真诚'] },
+            { type: 'ENFJ', name: '主人公', group: 'nf', traits: ['魅力非凡', '感染力强', '领导力强', '善于激励'] },
+            { type: 'ENFP', name: '竞选者', group: 'nf', traits: ['热情洋溢', '创意十足', '社交达人', '可能性导向'] },
+            // 守护者组 SJ
+            { type: 'ISTJ', name: '物流师', group: 'sj', traits: ['责任感强', '注重细节', '忠诚可靠', '务实稳重'] },
+            { type: 'ISFJ', name: '守卫者', group: 'sj', traits: ['温柔体贴', '默默奉献', '记忆力强', '传统价值'] },
+            { type: 'ESTJ', name: '总经理', group: 'sj', traits: ['执行力强', '管理能力', '务实可靠', '遵守规则'] },
+            { type: 'ESFJ', name: '执政官', group: 'sj', traits: ['热情友好', '善于社交', '乐于助人', '重视和谐'] },
+            // 探险家组 SP
+            { type: 'ISTP', name: '鉴赏家', group: 'sp', traits: ['动手能力强', '善于分析', '冷静理性', '喜欢探索'] },
+            { type: 'ISFP', name: '探险家', group: 'sp', traits: ['艺术气质', '随性自在', '审美敏锐', '活在当下'] },
+            { type: 'ESTP', name: '企业家', group: 'sp', traits: ['行动力强', '敢于冒险', '社交能力', '活在当下'] },
+            { type: 'ESFP', name: '表演者', group: 'sp', traits: ['活泼开朗', '喜欢表演', '社交达人', '享受生活'] }
+        ];
+
+        // 320条交叉解读数据
+        const crossAnalysis = {
+            'LB-WILD': {
+                'INTJ': { stars: 3, name: '剑指星河', desc: '李白遇上INTJ，就像一匹野马被套上了精密导航——他嘴上说不要，身体却很诚实地开始规划星辰大海了。INTJ的逻辑思维配上李白的浪漫主义，终于有人能把他那些天马行空的想法落地成执行方案了。只是李白可能写到一半就跑去喝酒了，留下INTJ在旁边疯狂列待办清单。' },
+                'INTP': { stars: 4, name: '双厨狂喜', desc: '李白和INTP相遇，那是两个话痨的终极形态——一个爱喝酒吹牛，一个爱推理分析。他俩凑一块能把宇宙大爆炸聊到黑洞蒸发，从人生意义聊到薛定谔的猫。李白负责输出浪漫，INTP负责验证可行性，分工明确得像是早有预谋。' },
+                'ENTJ': { stars: 3, name: '帝王将相', desc: '李白配ENTJ，那就是两个都想当老大的人凑一块了。谁都不服谁，谁都想指挥谁。建议他俩组队打天下，先把皇位抢了再说。反正李白敢让高力士脱靴，ENTJ敢让整个朝廷996。' },
+                'ENTP': { stars: 5, name: '神仙打架', desc: '李白遇上ENTP，恭喜你解锁了"辩论battle天花板"成就。这俩人凑一块就是永无止境的头脑风暴，从诗词歌赋吵到人生哲学，从月亮有多圆吵到银河有几条支流。谁也不服谁，但谁也离不开谁。最绝的是吵完还能一起喝酒，这才是真正的神仙友谊！' },
+                'INFJ': { stars: 4, name: '灵魂知己', desc: '李白×INFJ，表面看是风马牛不相及，但其实都是内心戏超多的人。INFJ能读懂李白那些醉酒后的真心话，李白能感受到INFJ藏在冷漠外表下的热血。他俩在一起，就是"表面上喝酒作乐，实际上探讨人生终极意义"的组合。' },
+                'INFP': { stars: 4, name: '浪漫满屋', desc: '李白和INFP凑一块，那是理想主义者的终极狂欢。两个人可以在桃花树下喝到天亮，聊诗聊远方聊人生，聊到兴起直接写诗留念。李白写"床前明月光"，INFP在旁边感动得稀里哗啦，然后一起感叹人生若只如初见。' },
+                'ENFJ': { stars: 5, name: '流量担当', desc: '李白和ENFJ组队，那是妥妥的顶流CP。李白有才华，ENFJ有感染力，走到哪都是人群焦点。ENFJ负责点燃气氛，李白负责才华输出，两个人联手能让一场普通的聚会变成年度大戏。' },
+                'ENFP': { stars: 5, name: '疯癫双煞', desc: '李白和ENFP，命运给了他们相同的出厂设置：精力旺盛、创意无限、下一秒不知道会干啥。这俩人凑一块，要么一起发疯要么一起闯祸。反正只要有他俩在的地方，就没有无聊二字。' },
+                'ISTJ': { stars: 2, name: '相爱相杀', desc: '李白遇上ISTJ，那是浪漫主义和现实主义的正面交锋。ISTJ想让他按时交稿，他想一出是一出；ISTJ想让他稳重一点，他偏要上天摘月亮。最后结果往往是：ISTJ气得跳脚，李白飘然离去。' },
+                'ISFJ': { stars: 3, name: '团宠出道', desc: '李白被ISFJ照顾？那画面太美我不敢看。ISFJ负责操心他吃没吃饭、有没有着凉，李白负责到处浪然后惹祸回家。ISFJ的包容度就是李白的作妖上限，只要ISFJ在，李白永远有退路。' },
+                'ESTJ': { stars: 3, name: '欢喜冤家', desc: 'ESTJ想让李白按规矩办事，李白想让ESTJ接受现实。一个要结果，一个要自由；一个讲绩效，一个讲浪漫。最后要么李白被管得服服帖帖，要么ESTJ被气到原地爆炸。' },
+                'ESFJ': { stars: 4, name: '社交牛人', desc: '李白配ESFJ，那是把酒言欢的最佳拍档。ESFJ负责组织饭局、安排活动，李白负责在饭局上大放异彩。ESFJ欣赏李白的才华，李白享受ESFJ的热情。这组合走到哪都是气氛组担当。' },
+                'ISTP': { stars: 4, name: '酷盖联盟', desc: '李白和ISTP都属于那种"嘴上不说，心里都有数"的人。他俩凑一块不用多说话，一个眼神就懂对方在想啥。ISTP欣赏李白的随性，李白欣赏ISTP的冷静。都是不爱解释的主儿。' },
+                'ISFP': { stars: 4, name: '浪到飞起', desc: '李白和ISFP，那是追求自由的灵魂伴侣。两个人都活在当下，都讨厌束缚，都爱大自然的美。他俩可以一起流浪到天涯海角，一路写诗一路看风景。ISFP的美学品味配上李白的诗词才华，绝配。' },
+                'ESTP': { stars: 5, name: '酒肉朋友', desc: '李白和ESTP在一起，那是"今夜不醉不归"的终极版本。两个人都是享乐主义者，都爱热闹都爱冒险。他俩凑一块能把整个长安城翻个底朝天，第二天醒来发现欠了一屁股酒债，但谁在乎呢？' },
+                'ESFP': { stars: 5, name: '整活天团', desc: '李白和ESFP组队，那是舞台中央的绝对C位。一个负责诗词输出，一个负责表演炸场。他俩凑一块就没有冷场这个词，观众想走都走不了，只能跟着一起疯一起嗨。' }
+            },
+            'DF-EMO': {
+                'INTJ': { stars: 4, name: '孤独战友', desc: '杜甫遇上INTJ，表面看是两种不同的孤独——杜甫emo是感性的孤独，INTJemo是理性的孤独。但当他俩凑一块，就会发现：原来这个世界上真的有人能懂我的痛苦。INTJ会用逻辑帮杜甫分析时局，杜甫会用情感帮INTJ理解人间疾苦。' },
+                'INTP': { stars: 3, name: '学术搭档', desc: '杜甫和INTP都是那种想太多的人，区别在于杜甫想的是百姓疾苦，INTP想的是世界运转规律。他俩凑一块能聊到天荒地老，从民生问题聊到宇宙哲学，从历史规律聊到量子力学。只是聊完发现，问题还是没解决。' },
+                'ENTJ': { stars: 2, name: '拧巴组合', desc: '杜甫想让ENTJ关心百姓，ENTJ想让杜甫别那么悲观。一个感性大于理性，一个理性大于感性；一个天天emo，一个天天向上。他俩凑一块，要么吵架要么互相看不惯。但如果能和平共处，那一定是杜甫终于被ENTJ的乐观感染了。' },
+                'ENTP': { stars: 3, name: '鸡同鸭讲', desc: '杜甫在emo，ENTP说"来，辩论一下你的emo有没有道理"。杜甫想安静疗伤，ENTP拉着他头脑风暴。ENTP的热情有时候能让杜甫暂时忘记烦恼，但更多时候杜甫只想说"你不懂我"。' },
+                'INFJ': { stars: 5, name: 'soulmate', desc: '杜甫×INFJ，理想主义者的双向奔赴。杜甫忧国忧民，INFJ也忧国忧民；杜甫emo到无法自拔，INFJ能感同身受。他俩凑一块就是"这个世界怎么会这样"的终极吐槽现场，但吐槽完会互相安慰：没关系，至少我们还在坚持。' },
+                'INFP': { stars: 5, name: 'emo同盟', desc: '杜甫和INFP，那是一对"人间疾苦我先知"的感性搭档。两个人都容易被触动，都容易被伤害，都容易在深夜独自感伤。他俩凑一块不是抱头痛哭就是互相写诗安慰，最适合一起"为赋新词强说愁"。' },
+                'ENFJ': { stars: 4, name: '治愈阳光', desc: '杜甫emo到谷底的时候，只需要一个ENFJ就能把他拉出来。ENFJ的热情和感染力像是冬日暖阳，能让杜甫暂时放下那些沉重的忧虑。只是温暖过后，杜甫还是会继续emo，但至少有了继续前行的力量。' },
+                'ENFP': { stars: 3, name: '悲喜交加', desc: '杜甫emo，ENFP想拉他去快乐。ENFP的热情像一阵风，吹得杜甫心里又暖又乱。有时候ENFP能让杜甫暂时忘记烦恼，但更多时候杜甫会觉得"你怎么可以这么快乐"。这两种情绪在同一屋檐下，很有戏剧性。' },
+                'ISTJ': { stars: 4, name: '默默守护', desc: 'ISTJ不太会说漂亮话，但会在杜甫emo的时候默默泡一杯茶放在旁边。杜甫需要的是有人倾听，ISTJ需要的是有规律地关心别人。他俩的相处模式是：杜甫负责emo，ISTJ负责后勤。' },
+                'ISFJ': { stars: 5, name: '贴心棉袄', desc: '杜甫emo到不行的时候，ISFJ会默默承担起照顾他的责任。ISFJ的温暖像是冬日里的一碗热粥，不惊天动地，但足够暖心。杜甫终于可以放心地继续emo，因为有人会帮他打理好一切。' },
+                'ESTJ': { stars: 2, name: '互看不爽', desc: '杜甫说"百姓太苦了"，ESTJ说"那你抱怨有什么用"。杜甫想要的是情感共鸣，ESTJ想要的是解决方案。两个人不在一个频道，分分钟要吵起来的节奏。' },
+                'ESFJ': { stars: 4, name: 'social救星', desc: 'ESFJ会用他们的方式帮杜甫走出emo——拉他去社交、给他介绍朋友、让他感受人间烟火气。杜甫可能会嘴上说不要，但心里其实挺受用。ESFJ的热情能把杜甫从个人emo里拉出来看看外面的世界。' },
+                'ISTP': { stars: 3, name: '沉默陪伴', desc: '杜甫emo，ISTP不知道该说什么，就默默陪着。ISTP不善言辞，但他们的存在本身就是一种安慰。他俩不需要说话，只要坐在一起，空气中就有一种"我懂你"的气场。' },
+                'ISFP': { stars: 4, name: '艺术疗愈', desc: 'ISFP会用艺术的方式帮杜甫消化情绪——一起看场画展、去郊外写生、在月光下听风。ISFP的美学感知能让杜甫那些沉重的emo变成创作灵感，这大概就是所谓的"化悲愤为力量"吧。' },
+                'ESTP': { stars: 2, name: '强行拉练', desc: 'ESTP看到杜甫emo就来劲，拉着他去冒险去折腾去感受生活的刺激。杜甫内心是拒绝的，但ESTP的魄力让他很难说不。只是折腾完之后，杜甫可能更emo了——因为折腾完了还是要面对现实。' },
+                'ESFP': { stars: 3, name: '苦乐参半', desc: 'ESFP想带杜甫嗨起来，杜甫想拉ESFP一起思考人生。这两个人在一起就像一部悲喜剧，一个负责悲一个负责喜。ESFP的热情能照亮杜甫的阴暗角落，但杜甫的深刻也让ESFP开始思考人生。' }
+            },
+            'SS-CHILL': {
+                'INTJ': { stars: 3, name: '哲学二人组', desc: '苏轼和INTJ凑一块，那是"人生的意义是什么"的终极讨论现场。INTJ负责理性分析，苏轼负责感性发挥。两个人都是爱思考的人，只是思考的方式不太一样。INTJ想搞清楚宇宙规律，苏轼想搞清楚今晚吃啥。' },
+                'INTP': { stars: 4, name: '学术吃货', desc: '苏轼和INTP的组合很神奇——两个人都爱研究，苏轼研究美食，INTP研究原理。苏轼做道菜，INTP能给你分析出分子结构；但这不妨碍他俩一边吃一边聊科学，聊到兴起直接开一瓶酒。' },
+                'ENTJ': { stars: 3, name: '亦庄亦谐', desc: 'ENTJ想搞事业，苏轼想搞美食。ENTJ觉得苏轼太悠闲，苏轼觉得ENTJ太紧绷。但有意思的是，ENTJ有时候会被苏轼的豁达感染，苏轼有时候也会被ENTJ的上进心带动。这大概就是互补吧。' },
+                'ENTP': { stars: 4, name: '欢乐源泉', desc: '苏轼和ENTP凑一块，那是欢乐喜剧人的现场直播。两个人都是话痨，都爱抬杠，都有一肚子的鬼点子。他俩能聊政治聊哲学聊人生，聊到天亮都不带困的。最绝的是，聊完还能一起去找好吃的。' },
+                'INFJ': { stars: 4, name: '心灵导师', desc: '苏轼的豁达能感染INFJ，INFJ的深度能理解苏轼。两个都是内心世界丰富的人，都喜欢思考人生意义。苏轼的"竹杖芒鞋轻胜马"能让INFJ感受到活在当下的力量，INFJ的洞察能让苏轼感受到被理解的温暖。' },
+                'INFP': { stars: 4, name: '浪漫满溢', desc: '苏轼和INFP都是浪漫主义者，都爱诗和远方。他俩凑一块不是在感慨人生，就是在创作艺术。苏轼写"但愿人长久"，INFP在旁边感动得稀里哗啦，然后两个人一起感叹人生若只如初见。' },
+                'ENFJ': { stars: 5, name: '人气组合', desc: '苏轼和ENFJ都是社交高手，走到哪都是人群中心。苏轼有才华，ENFJ有魅力；苏轼会讲笑话，ENFJ会烘托气氛。他俩组队，那是绝对的"人气天团"，走到哪都能掀起一股热潮。' },
+                'ENFP': { stars: 5, name: '快乐星球', desc: '苏轼和ENFP，那是一对"干啥啥快乐"的组合。苏轼的豁达配ENFP的热情，那是双倍的正能量。这俩人凑一块，永远不会有emo这个词，只有"今天玩什么"和"明天去哪浪"。' },
+                'ISTJ': { stars: 4, name: '反差萌', desc: 'ISTJ觉得苏轼太不靠谱，苏轼觉得ISTJ太无聊。但实际上，ISTJ的稳定性刚好能托住苏轼的跳跃性，苏轼的有趣刚好能点亮ISTJ的沉闷。这大概就是所谓的"最佳损友"吧。' },
+                'ISFJ': { stars: 4, name: '暖心组合', desc: 'ISFJ照顾苏轼的胃，苏轼治愈ISFJ的心。ISFJ会担心苏轼吃不好穿不暖，苏轼会用他的乐观告诉ISFJ"没事的，都会好起来的"。这种互补让两个人都很舒服。' },
+                'ESTJ': { stars: 3, name: '欢乐冤家', desc: 'ESTJ想让苏轼正经点，苏轼想让ESTJ放松点。一个要效率，一个要快乐；一个讲原则，一个讲变通。他俩凑一块，要么是ESTJ被苏轼带偏开始享受生活，要么是苏轼被ESTJ抓去干活。' },
+                'ESFJ': { stars: 5, name: '美食社交', desc: '苏轼和ESFJ组队，那是美食与社交的完美结合。苏轼负责发现美食、创造美食，ESFJ负责组织饭局、招待客人。他俩凑一块，能把普通的一顿饭变成一场美食盛宴。' },
+                'ISTP': { stars: 4, name: '酷哥联盟', desc: '苏轼和ISTP都是那种看起来酷酷的、实际上很有内涵的人。他俩凑一块不需要太多话，一个眼神就懂对方在想啥。ISTP欣赏苏轼的随性，苏轼欣赏ISTP的冷静。都是不爱解释的主儿。' },
+                'ISFP': { stars: 5, name: '味觉艺术家', desc: '苏轼和ISFP的组合太绝了——两个人都是美食家，都懂生活美学。苏轼发明新菜，ISFP来品鉴；ISFP发现美景，苏轼来写诗。他俩凑一块，生活就是一场永不落幕的艺术展。' },
+                'ESTP': { stars: 5, name: '冒险双煞', desc: '苏轼和ESTP，那是"人生就是要浪"的最佳代言人。苏轼被贬到哪，哪就是新的冒险目的地；ESTP看到有冒险机会，眼睛都在发光。他俩凑一块，能把被贬流放活成公路电影。' },
+                'ESFP': { stars: 5, name: '生活大师', desc: '苏轼和ESFP在一起，那是把日子过成诗的组合。两个人都爱生活、都爱热闹、都能在平凡中发现快乐。他俩凑一块，哪怕是路边的一碗阳春面，也能吃出米其林三星的感觉。' }
+            },
+            'WW-ZEN': {
+                'INTJ': { stars: 4, name: '智慧双雄', desc: '王维和INTJ都是喜欢深度思考的人，不同的是INTJ喜欢在思考中规划未来，王维喜欢在思考中放空自己。但当他俩凑一块，那是"从宇宙真理聊到人生意义"的哲学盛宴，聊完相视一笑，默契满分。' },
+                'INTP': { stars: 5, name: '学术禅修', desc: '王维和INTP都是内向的思考者，都喜欢独处和深度的精神探索。他俩凑一块不需要social，不需要寒暄，只要坐在一起喝茶思考就很满足。INTP研究宇宙，王维研究内心，殊途同归。' },
+                'ENTJ': { stars: 2, name: '佛系vs卷王', desc: '王维想过隐居生活，ENTJ想让他出来搞事业。一个要躺平，一个要卷起；一个想独处，一个要指挥。王维的佛系对上ENTJ的野心，大概只有一种结果：ENTJ气得跳脚，王维继续喝他的茶。' },
+                'ENTP': { stars: 3, name: 'peacepeace', desc: 'ENTP想把王维拉出来辩论，王维说"不如喝茶"。ENTP想拉他头脑风暴，王维说"不如看云"。ENTP的热情碰上王维的淡定，就像一拳打在棉花上，有力无处使。但ENTP久了也会被王维的peace感染。' },
+                'INFJ': { stars: 5, name: '灵魂知己', desc: '王维和INFJ都是追求精神高度的人，都向往内心的平静与和谐。他俩凑一块，不需要说话，只要一起看看山水、品品茶，就能感受到灵魂的契合。那种"懂你无需言语"的默契，只有同类才能体会。' },
+                'INFP': { stars: 5, name: '文艺青年', desc: '王维和INFP都是文艺到骨子里的人，都追求诗和远方。他俩凑一块可以一起写诗、作画、谈哲学，从诗词歌赋聊到人生理想。王维的"诗中有画"配上INFP的浪漫主义，那是绝配。' },
+                'ENFJ': { stars: 2, name: '社恐社牛', desc: 'ENFJ想拉王维去社交，王维只想一个人待着。ENFJ的热情对王维来说有点太过刺激，王维的冷淡对ENFJ来说有点不近人情。但ENFJ如果能尊重王维的边界，他俩也能成为不错的朋友。' },
+                'ENFP': { stars: 3, name: '静动两极', desc: 'ENFP想把王维拉出去浪，王维想拉ENFP一起冥想。两个人完全不同的能量频率，ENFP觉得王维太闷，王维觉得ENFP太闹。但如果ENFP能安静下来，他们能一起发现生活中的小美好。' },
+                'ISTJ': { stars: 4, name: '岁月静好', desc: '王维和ISTJ都是那种安安静静过日子的类型。一个喜欢诗和远方，一个喜欢规律和稳定。他俩凑一块没有火花也没有冲突，就是平平淡淡、稳稳当当的日子。这种peace，懂的都懂。' },
+                'ISFJ': { stars: 4, name: '温柔岁月', desc: 'ISFJ会默默照顾王维的生活，王维会用自己的方式回馈温暖。两个人都不张扬，都喜欢细水长流的感情。他俩在一起，就像一杯温热的茶，不惊艳但很舒服。' },
+                'ESTJ': { stars: 2, name: '不合拍', desc: 'ESTJ想要掌控感和效率感，王维想要自由和超脱。一个想卷，一个想躺；一个要管，一个要逃。这俩人凑一块，ESTJ会觉得王维不求上进，王维会觉得ESTJ太功利。' },
+                'ESFJ': { stars: 3, name: '需要磨合', desc: 'ESFJ的热情需要王维慢慢适应，王维的独处需要ESFJ慢慢理解。但如果ESFJ能学会给王维空间，他俩也能和谐相处。ESFJ的组织能力配上王维的审美品味，能办出很不错的雅集。' },
+                'ISTP': { stars: 5, name: '同道中人', desc: '王维和ISTP都是享受独处的酷人，都喜欢简单自然的生活方式。他俩凑一块不需要寒暄，不需要social，找个风景好的地方一坐就是一下午。ISTP动手能力强，正好帮王维种种菜、修修禅。' },
+                'ISFP': { stars: 5, name: '艺术灵魂', desc: '王维和ISFP都是美学家，都追求生活的艺术。他俩凑一块可以一起探索自然之美、艺术之美、生活之美。王维的诗配ISFP的艺术视角，那是灵魂层面的契合。' },
+                'ESTP': { stars: 2, name: '磁场不合', desc: 'ESTP的冒险精神和王维的淡定气质完全不在一个频道。ESTP想拉王维去冒险，王维想拉ESTP一起打坐。两个人对"快乐"的定义都不一样，凑一块只能是鸡同鸭讲。' },
+                'ESFP': { stars: 3, name: '需要调频', desc: 'ESFP觉得王维太无聊，王维觉得ESFP太闹腾。两个人对生活节奏的期待完全不同。但如果ESFP能学会安静下来，他俩还是能一起发现一些生活中的小美好的。' }
+            },
+            'LQZ-SASS': {
+                'INTJ': { stars: 4, name: '独立女性', desc: '李清照遇上INTJ，那是独立女性的强强联合。两个人都是那种"我不需要任何人来定义我"的主儿。INTJ欣赏李清照的清醒，李清照欣赏INTJ的理性。这俩人凑一块，绝对是"搞事业姐妹花"。' },
+                'INTP': { stars: 4, name: '学者闺蜜', desc: '李清照和INTP都爱研究，一个研究金石，一个研究逻辑。他俩凑一块可以一起搞学术、一起吐槽社会、一起在深夜讨论人生。INTP能理解李清照为什么那么执着，李清照能欣赏INTP的脑洞。' },
+                'ENTJ': { stars: 3, name: '女强人组', desc: '李清照和ENTJ都是强势女性，都有主见都有魄力。他俩凑一块要么是"我们一起搞事业"，要么是"凭什么听你的"。两个都要当老大的人在一起，火花肯定不少。' },
+                'ENTP': { stars: 5, name: '怼天怼地', desc: '李清照和ENTP凑一块，那是"吐槽大会"的终极版本。两个人都是嘴炮高手，都不care别人怎么看。她俩凑一块能把世间不平事骂个遍，骂完一起喝酒写词，好不畅快。' },
+                'INFJ': { stars: 4, name: '深刻共鸣', desc: '李清照和INFJ都能看到事物深刻的一面，都不满足于表面。她俩凑一块可以聊人生聊理想聊爱情，从诗词歌赋聊到人生哲学。INFJ能读懂李清照的骄傲和脆弱，李清照能感受到INFJ的理想主义。' },
+                'INFP': { stars: 4, name: '浪漫灵魂', desc: '李清照和INFP都是浪漫主义者，都追求纯粹的爱情和真诚。她俩凑一块可以一起感慨"人生若只如初见"，一起写词喝酒怀念过去。INFP能理解李清照对爱情的执着，李清照能欣赏INFP的敏感。' },
+                'ENFJ': { stars: 3, name: '亦师亦友', desc: 'ENFJ欣赏李清照的才华和个性，李清照欣赏ENFJ的魅力和感染力。但ENFJ想要的影响力李清照不稀罕，李清照的孤傲ENFJ也不太理解。这俩人能处，但不会太亲密。' },
+                'ENFP': { stars: 4, name: '拽姐联盟', desc: '李清照和ENFP都是那种"老娘就是拽"的主儿。她俩凑一块那是绝对的"人间清醒姐妹花"，一个负责才华输出，一个负责热情感染。她俩在一起，只有别人被怼的份。' },
+                'ISTJ': { stars: 2, name: '观念冲突', desc: '李清照不按套路出牌，ISTJ按规矩办事。一个追求自由，一个讲究秩序；一个敢爱敢恨，一个稳重保守。她俩凑一块，ISTJ会觉得李清照太出格，李清照会觉得ISTJ太无聊。' },
+                'ISFJ': { stars: 3, name: '需要理解', desc: 'ISFJ的传统观念和李清照的先锋思想有点格格不入。ISFJ觉得女生应该温柔点，李清照说"凭什么"。但如果ISFJ能理解李清照的独立，他俩也能成为朋友。' },
+                'ESTJ': { stars: 3, name: '势均力敌', desc: '李清照和ESTJ都是强势角色，都有主见都有执行力。她俩凑一块要么是"我们来比划比划"，要么是"不如一起搞事"。两个女生都是大佬，就看谁更狠了。' },
+                'ESFJ': { stars: 3, name: '不太来电', desc: 'ESFJ喜欢social和热闹，李清照喜欢清静和独处。ESFJ的友好李清照不一定需要，李清照的骄傲ESFJ不一定理解。她俩可以相处，但很难深入。' },
+                'ISTP': { stars: 4, name: '酷girl联盟', desc: '李清照和ISTP都是酷酷的女生，都不爱解释都不care别人眼光。她俩凑一块不需要social，不需要表演，只要做自己就好。ISTP能欣赏李清照的真实，李清照能欣赏ISTP的冷静。' },
+                'ISFP': { stars: 4, name: '艺术缪斯', desc: '李清照和ISFP都是审美满分的人，都追求生活的艺术感。她俩凑一块可以一起品酒赏花、研究金石、聊聊艺术。李清照的才情配ISFP的品味，那是灵魂层面的契合。' },
+                'ESTP': { stars: 5, name: '玩咖姐妹', desc: '李清照和ESTP都是爱玩的性格，都敢想敢做敢当。她俩凑一块能把日子过成诗和远方，该喝酒喝酒，该怼人怼人。李清照的才情配ESTP的行动力，那是绝配。' },
+                'ESFP': { stars: 4, name: 'social达人', desc: '李清照和ESFP在一起，那是既有才华又有魅力的组合。ESFP能带李清照体验更多生活的乐趣，李清照能提升ESFP的文化底蕴。她俩在一起，绝对是全场焦点。' }
+            },
+            'XQJ-FIGHT': {
+                'INTJ': { stars: 4, name: '谋略双雄', desc: '辛弃疾和INTJ都是战略家，都喜欢在脑子里规划大事。区别在于INTJ是理论派，辛弃疾是实战派。他俩凑一块能从军事策略聊到国家大事，聊到兴起直接开始沙盘推演。' },
+                'INTP': { stars: 3, name: '反差萌', desc: '辛弃疾是个猛人，INTP是个宅男。但这俩人凑一块居然很和谐——INTP能帮辛弃疾分析局势，辛弃疾能让INTP感受热血。他俩的组合是"键盘侠+实战派"的完美结合。' },
+                'ENTJ': { stars: 5, name: '帝王组合', desc: '辛弃疾和ENTJ都是大佬，都想干一番惊天动地的大事业。他俩凑一块那是"天下英雄谁敌手"的现场直播，两个人都是那种"给我一个机会我能改变世界"的主儿。' },
+                'ENTP': { stars: 4, name: '辩论高手', desc: '辛弃疾和ENTP都是嘴上功夫了得的人，都不轻易服输。他俩凑一块能辩论到天亮，从军事策略吵到诗词歌赋，谁也不服谁，但谁也离不开谁。' },
+                'INFJ': { stars: 3, name: '理想共鸣', desc: '辛弃疾和INFJ都有家国情怀，都想为世界做点贡献。不同的是INFJ更内敛，辛弃疾更外放。他俩凑一块，INFJ能理解辛弃疾的热血，辛弃疾能感受INFJ的深沉。' },
+                'INFP': { stars: 3, name: '文青武将', desc: '辛弃疾是个武将但写的一手好词，INFP是个文青但内心也有热血。他俩凑一块能聊诗词聊理想，INFP能感受到辛弃疾的浪漫，辛弃疾能欣赏INFP的坚持。' },
+                'ENFJ': { stars: 4, name: '激励大师', desc: 'ENFJ能点燃辛弃疾心中的火焰，让他更有动力去战斗。ENFJ的感染力配上辛弃疾的感染力，那是双倍的影响力。他俩在一起，能激励一整个时代。' },
+                'ENFP': { stars: 4, name: '热血双雄', desc: '辛弃疾和ENFP都是热情似火的人，都有理想都有激情。他俩凑一块不是聊理想就是聊诗词，不是喝酒就是看剑。这种组合，想不热血都难。' },
+                'ISTJ': { stars: 4, name: '稳中带狠', desc: 'ISTJ的稳重能托住辛弃疾的狂野，让他的战斗力更加聚焦。辛弃疾欣赏ISTJ的可靠，ISTJ佩服辛弃疾的魄力。他俩凑一块，那是"稳如老狗，猛如疯狗"的组合。' },
+                'ISFJ': { stars: 3, name: '需要磨合', desc: 'ISFJ想要和谐稳定，辛弃疾想要战斗突破。一个想守，一个想攻；一个要peace，一个要fight。他俩能相处，但需要慢慢理解对方。' },
+                'ESTJ': { stars: 5, name: '六边形战士', desc: '辛弃疾和ESTJ都是那种执行力超强的人，都是"说干就干"的类型。他俩凑一块不是搞事业就是在搞事业的路上，效率高得吓人。他俩组队，那是妥妥的"霸总天团"。' },
+                'ESFJ': { stars: 3, name: '需要调频', desc: 'ESFJ的社交热情碰上辛弃疾的武人气质，有时候会有点火花。ESFJ想让辛弃疾多social，辛弃疾想让ESFJ跟他一起练剑。但他们如果能找到共同话题，还是能相处的。' },
+                'ISTP': { stars: 4, name: '硬核兄弟', desc: '辛弃疾和ISTP都是硬汉，都不爱废话都爱行动。他俩凑一块不需要寒暄，拔剑就开始切磋武艺，切磋完一起喝酒。这种男人之间的友谊，简单直接。' },
+                'ISFP': { stars: 3, name: '反差组合', desc: '辛弃疾是个猛人，ISFP是个安静的美男子。但这反差有时候很有趣——辛弃疾能保护ISFP，ISFP能让辛弃疾感受生活的另一面。他俩在一起，刚柔并济。' },
+                'ESTP': { stars: 5, name: '冒险搭档', desc: '辛弃疾和ESTP都是行动派，都爱冒险都爱刺激。他俩凑一块不是在打仗就是在去打仗的路上，精彩程度堪比好莱坞大片。ESTP敢想，辛弃疾敢干，绝配。' },
+                'ESFP': { stars: 4, name: '热闹兄弟', desc: '辛弃疾和ESFP在一起不会无聊，两个人都能high能浪。他俩凑一块要不就是喝酒划拳，要不就是策划大事。ESFP的热情能让辛弃疾更乐观，辛弃疾的魄力能让ESFP更勇敢。' }
+            },
+            'BJY-WORK': {
+                'INTJ': { stars: 3, name: '目标一致', desc: '白居易和INTJ都是追求完美的人，都有自己的标准和原则。INTJ更理性，白居易更感性。他俩凑一块，INTJ能帮白居易分析问题，白居易能让INTJ更有人情味。' },
+                'INTP': { stars: 3, name: '学术搭档', desc: '白居易写诗追求通俗易懂，INTP思考追求逻辑严密。他俩看似不搭，但INTP能欣赏白居易"老妪能解"的智慧，白居易能理解INTP的深度思考。' },
+                'ENTJ': { stars: 4, name: '事业伙伴', desc: '白居易和ENTJ都是想干大事的人，都追求效率和成果。他俩凑一块不是在搞事业就是在讨论怎么搞事业，ESFJ负责热情，ENTJ负责方向，绝配。' },
+                'ENTP': { stars: 4, name: '话痨组合', desc: '白居易和ENTP都是社交达人，都能聊都能浪。他俩凑一块能把普通的聚会变成大型吐槽现场，从诗词歌赋聊到人生哲学，从政治民生聊到八卦绯闻。' },
+                'INFJ': { stars: 4, name: '民生CP', desc: '白居易关心百姓疾苦，INFJ也关心人类命运。他俩凑一块不是聊民生就是聊理想，聊到深处相视一笑，"原来你也是这样想的人"。这种精神层面的契合很难得。' },
+                'INFP': { stars: 4, name: '理想主义者', desc: '白居易虽然接地气但也有理想主义的一面，INFP也是。他俩凑一块可以聊诗词聊理想，白居易的务实配INFP的浪漫，刚好平衡。' },
+                'ENFJ': { stars: 5, name: '人气担当', desc: '白居易和ENFJ都是人气王，走到哪都有人缘。他俩凑一块那就是"流量密码"，白居易负责内容，ENFJ负责传播，想不火都难。' },
+                'ENFP': { stars: 4, name: '社交达人', desc: '白居易和ENFP都是社交高手，都爱热闹都爱交朋友。他俩凑一块那绝对是不会冷场的组合，一个人负责喝酒，一个人负责作诗，场面好不热闹。' },
+                'ISTJ': { stars: 4, name: '靠谱搭档', desc: '白居易和ISTJ都是靠谱的人，做事都有板有眼。他俩凑一块，一个出创意一个执行，配合默契。ISTJ欣赏白居易的才华，白居易欣赏ISTJ的稳重。' },
+                'ISFJ': { stars: 5, name: '温柔体贴', desc: 'ISFJ最懂白居易的接地气，最能理解他"老妪能解"的用心。ISFJ会默默支持白居易的事业，白居易会用自己的影响力回报ISFJ。这种组合很温馨。' },
+                'ESTJ': { stars: 4, name: '效率组合', desc: '白居易和ESTJ都是行动派，都讲究效率。他俩凑一块不是在工作就是在去工作的路上，休闲娱乐是什么？不存在的。他俩组队，那是"卷王之王"。' },
+                'ESFJ': { stars: 5, name: '人气爆棚', desc: '白居易和ESFJ的组合太绝了——一个有才华有人缘，一个有热情会照顾人。他俩走到哪都是人群中心，ESFJ负责组织，白居易负责内容输出，想不成功都难。' },
+                'ISTP': { stars: 3, name: '需要调频', desc: '白居易爱social，ISTP爱独处。一个要热闹，一个要安静。他俩能相处，但需要互相适应。白居易能学学ISTP的冷静，ISTP能感受白居易的热情。' },
+                'ISFP': { stars: 3, name: '艺术搭档', desc: '白居易虽然务实但也有艺术追求，ISFP也是。他俩凑一块可以聊聊诗词艺术，白居易能听听ISFP的审美视角，ISFP能感受白居易的通俗美学。' },
+                'ESTP': { stars: 4, name: '社交高手', desc: '白居易和ESTP都是社交能力强的人，都爱交朋友都爱热闹。他俩凑一块那就是"派对动物"，今天喝酒明天社交，后天组织诗会。' },
+                'ESFP': { stars: 5, name: '人气组合', desc: '白居易和ESFP在一起不无聊，两个人都是人群中的焦点。他俩凑一块能social到天亮，白居易负责诗词输出，ESFP负责气氛烘托，这种组合走到哪都是人气王。' }
+            },
+            'LSY-BE': {
+                'INTJ': { stars: 3, name: '高深莫测', desc: '李商隐遇上INTJ，两个都是神秘人物。一个把感情写成谜语，一个把想法藏在脑子里。他俩凑一块那就是"加密通话现场"，普通人根本听不懂他们在交流什么。' },
+                'INTP': { stars: 4, name: '学术谜语', desc: '李商隐写诗像在出谜题，INTP解谜像在做学术。他俩凑一块能进行一场"你猜我写的是什么意思"的极限拉扯。INTP的逻辑分析配上李商隐的朦胧美学，居然意外地合拍。' },
+                'ENTJ': { stars: 2, name: '画风不同', desc: 'ENTJ要的是效率和结果，李商隐给的是谜语和眼泪。一个想搞清楚他在说啥，一个故意不让他搞清楚。这种组合，ENTJ会很抓狂。' },
+                'ENTP': { stars: 4, name: '辩论搭档', desc: 'ENTP喜欢辩论，李商隐喜欢暧昧。ENTP想把李商隐的诗解读清楚，李商隐说"你永远猜不透我"。这种若即若离的关系，反而让ENTP欲罢不能。' },
+                'INFJ': { stars: 5, name: '灵魂知己', desc: '李商隐和INFJ都是那种能看到事物本质的人，都追求深刻的情感连接。他俩凑一块能聊到灵魂深处，INFJ能读懂李商隐那些欲言又止的话，李商隐能感受到INFJ的理解。这种共鸣太难得了。' },
+                'INFP': { stars: 5, name: '纯爱战士', desc: '李商隐和INFP都是爱情至上主义者，都能把感情写成一首诗。他俩凑一块那是"BE美学天花板"，一个负责写，一个负责哭。他俩的爱情观高度一致：爱过就够了，哪怕没有结果。' },
+                'ENFJ': { stars: 3, name: '需要理解', desc: 'ENFJ想要直接的沟通，李商隐给的是委婉的表达。一个想搞清楚，一个故意模糊。他俩能相处，但ENFJ需要学会欣赏李商隐的朦胧美。' },
+                'ENFP': { stars: 4, name: '浪漫邂逅', desc: '李商隐的诗配上ENFP的热情，那是浪漫与浪漫的碰撞。ENFP能感受到李商隐那些藏在谜语里的真心，李商隐能被ENFP的活力感染。他俩在一起，甜甜虐虐刚刚好。' },
+                'ISTJ': { stars: 2, name: '互相不懂', desc: 'ISTJ想要清晰直接，李商隐给的是模糊暧昧。ISTJ会说"你到底想表达什么"，李商隐会说"你不懂我"。这俩人凑一块，那是鸡同鸭讲。' },
+                'ISFJ': { stars: 3, name: '温柔守护', desc: 'ISFJ会默默陪伴李商隐，理解他的敏感和脆弱。虽然ISFJ可能不完全理解李商隐的诗意，但他们能给予足够的温暖和支持。ISFJ的包容是李商隐的安全感来源。' },
+                'ESTJ': { stars: 2, name: '不在频道', desc: 'ESTJ务实直接，李商隐浪漫朦胧。一个要结果，一个要过程；一个讲效率，一个讲感觉。这俩人完全不在一个维度，相处起来会很累。' },
+                'ESFJ': { stars: 3, name: '需要调频', desc: 'ESFJ热情友好但不太懂浪漫，李商隐浪漫至死但不善社交。他俩能相处，但需要慢慢理解对方的世界。ESFJ学着欣赏李商隐的诗意，李商隐学着接受ESFJ的直接。' },
+                'ISTP': { stars: 4, name: '酷哥美学', desc: '李商隐和ISTP都是那种不太爱解释的人，都活在自己的世界里。ISTP能欣赏李商隐的美学，李商隐能理解ISTP的酷。他俩凑一块不需要多话，沉默也是一种交流。' },
+                'ISFP': { stars: 5, name: '美学搭档', desc: '李商隐和ISFP都是审美满分的人，都追求艺术的极致。他俩凑一块能一起探索美、感受美、创造美。李商隐的诗意配ISFP的视觉，那是灵魂层面的契合。' },
+                'ESTP': { stars: 3, name: '反差萌', desc: '李商隐是忧郁小王子，ESTP是阳光大男孩。这种反差有时候很有趣——ESTP想拉李商隐出门浪，李商隐想拉ESTP一起emo。他俩在一起，悲喜交加。' },
+                'ESFP': { stars: 4, name: '治愈系', desc: 'ESFP的热情能照亮李商隐的忧郁，让他暂时忘记那些伤感的事。李商隐的深沉能让ESFP感受生活的另一面。他俩在一起，那是"一边流泪一边跳舞"的组合。' }
+            },
+            'TYM-FARM': {
+                'INTJ': { stars: 4, name: '躺平哲学', desc: '陶渊明和INTJ都是爱思考的人，只是思考的方向不同——一个思考怎么种地，一个思考怎么改变世界。但他俩凑一块能聊"从宇宙真理到田园生活"的哲学话题，意外地合拍。' },
+                'INTP': { stars: 4, name: '研究搭档', desc: '陶渊明种田，INTP研究原理。两个人都是爱钻研的人，只是领域不同。INTP能帮陶渊明分析土壤成分，陶渊明能让INTP体验"晨兴理荒秽"的快乐。' },
+                'ENTJ': { stars: 2, name: '人生分歧', desc: '陶渊明想过归隐生活，ENTJ想让他出来搞事业。一个要躺平，一个要卷起；一个想当农民，一个想当领导。ENTJ会被陶渊明的"不为五斗米折腰"气到无语。' },
+                'ENTP': { stars: 3, name: '佛系辩论', desc: 'ENTP想拉陶渊明出来辩论，陶渊明说"不如一起种豆南山下"。ENTP的热情碰上陶渊明的淡定，就像一拳打在棉花上。但ENTP久了也会被这种peace感染。' },
+                'INFJ': { stars: 5, name: '精神契合', desc: '陶渊明和INFJ都是理想主义者，都追求内心的平静与自由。他俩凑一块可以聊人生聊理想，从诗词歌赋聊到人生哲学。INFJ能理解陶渊明"采菊东篱下"的超脱，陶渊明能感受到INFJ的共鸣。' },
+                'INFP': { stars: 5, name: '浪漫归隐', desc: '陶渊明和INFP都是浪漫主义者，都向往诗和远方。他俩凑一块那就是"归隐田园梦"的终极版本，一起种菜一起写诗一起看星星，岁月静好到不真实。' },
+                'ENFJ': { stars: 2, name: '频道不同', desc: 'ENFJ想要影响力，陶渊明想要自由。ENFJ的热情对陶渊明来说有点太过刺激，陶渊明的淡定对ENFJ来说有点不求上进。但ENFJ如果能理解陶渊明的选择，他俩也能成为朋友。' },
+                'ENFP': { stars: 4, name: '田园诗人', desc: '陶渊明和ENFP都是热爱自由的人，都向往简单的生活。ENFP会被陶渊明的归隐生活吸引，陶渊明会觉得ENFP的热情很可爱。他俩凑一块能把普通的日子过成诗。' },
+                'ISTJ': { stars: 4, name: '岁月静好', desc: '陶渊明和ISTJ都是安安静静过日子的人，都追求稳定和规律。他俩凑一块可以一起种菜一起喝茶，过着"日出而作日落而息"的田园生活。这种peace，正是两个人都想要的。' },
+                'ISFJ': { stars: 5, name: '温馨田园', desc: 'ISFJ会照顾陶渊明的日常起居，陶渊明会给ISFJ带来心灵的平静。他俩的组合是"男主外女主内"的田园版本，只是这里没有内外之分，只有岁月静好。' },
+                'ESTJ': { stars: 2, name: '理念冲突', desc: 'ESTJ想要KPI，陶渊明只想种田。一个要效率，一个要自由；一个要成果，一个要peace。ESTJ会觉得陶渊明太懒，陶渊明会觉得ESTJ太累。' },
+                'ESFJ': { stars: 3, name: '需要适应', desc: 'ESFJ的热情社交和陶渊明的安静归隐有点冲突。ESFJ想让陶渊明多social，陶渊明想一个人种种菜。但如果ESFJ能接受这种生活方式，他俩也能和谐相处。' },
+                'ISTP': { stars: 5, name: '田园兄弟', desc: '陶渊明和ISTP都是享受简单生活的人，都不喜欢复杂的人际关系。他俩凑一块那是"隐居山林二人组"，一起种田一起砍柴一起享受大自然的美好。这种友谊简单纯粹。' },
+                'ISFP': { stars: 5, name: '艺术田园', desc: '陶渊明和ISFP都是审美满分的人，都追求生活的艺术。他俩凑一块可以把田园生活过成诗，ISFP负责发现美，陶渊明负责记录美。这种日子，简单又精致。' },
+                'ESTP': { stars: 2, name: '画风不合', desc: 'ESTP爱冒险爱刺激，陶渊明想过安静日子。一个要浪，一个要稳；一个追求刺激，一个追求peace。ESTP会把陶渊明拉出舒适区，陶渊明会把ESTP拉回田间地头。' },
+                'ESFP': { stars: 3, name: '需要平衡', desc: 'ESFP想让陶渊明多出去浪，陶渊明想在家种种菜养养花。他俩需要找到平衡点——偶尔一起出去high，大部分时间各自安好。这种关系需要双方都做出让步。' }
+            },
+            'LZY-ALONE': {
+                'INTJ': { stars: 5, name: '孤独智者', desc: '柳宗元和INTJ都是享受独处的人，都喜欢深度思考。两个人都是"孤独但不寂寞"的类型，凑一块不需要social，只要一起看书一起发呆就很满足。INTJ能理解柳宗元的孤高，柳宗元能欣赏INTJ的睿智。' },
+                'INTP': { stars: 5, name: '学术知己', desc: '柳宗元和INTP都是爱研究的人，都喜欢在知识的海洋里遨游。他俩凑一块能聊哲学聊历史聊文学，聊到天黑都不带停的。这种精神层面的交流，对两个人来说都是享受。' },
+                'ENTJ': { stars: 2, name: '不合拍', desc: '柳宗元喜欢安静独处，ENTJ喜欢指挥全场。一个要孤独，一个要热闹；一个想躲起来，一个想拉他出来搞事业。这种组合，相处起来会很累。' },
+                'ENTP': { stars: 3, name: '若即若离', desc: 'ENTP想拉柳宗元出来浪，柳宗元说"我想一个人待着"。ENTP的热情碰上柳宗元的冷淡，就像一阵风刮过湖面，激不起一点涟漪。但如果ENTP能接受柳宗元的独处模式，他俩也能相处。' },
+                'INFJ': { stars: 4, name: '灵魂共鸣', desc: '柳宗元和INFJ都是内心世界丰富的人，都不善于表达自己。他俩凑一块能聊人生聊理想，INFJ能读懂柳宗元那些藏在文字里的孤独，柳宗元能感受到INFJ的理解。这种默契很难得。' },
+                'INFP': { stars: 4, name: '文艺孤星', desc: '柳宗元和INFP都是孤独的文艺青年，都习惯一个人思考一个人感慨。他俩凑一块可以一起写诗一起感慨，"千山鸟飞绝，万径人踪灭"配"孤独是成长的必经之路"，简直是绝配。' },
+                'ENFJ': { stars: 2, name: '需要空间', desc: 'ENFJ想要社交和连接，柳宗元想要独处和安静。ENFJ的热情对柳宗元来说有点负担，柳宗元的冷淡对ENFJ来说有点受伤。他俩需要给对方足够的空间才能和谐相处。' },
+                'ENFP': { stars: 3, name: '被动社交', desc: 'ENFP想带柳宗元去浪，柳宗元更想一个人待着。但ENFP的热情有时候能打动柳宗元，让他偶尔走出孤独感受一下热闹。这种组合需要ENFP更多的耐心。' },
+                'ISTJ': { stars: 4, name: '安静陪伴', desc: '柳宗元和ISTJ都是不爱说话的人，相处模式简单直接。ISTJ不会强迫柳宗元社交，柳宗元也会欣赏ISTJ的可靠。他俩凑一块那是"岁月静好"的标配。' },
+                'ISFJ': { stars: 4, name: '温柔守护', desc: 'ISFJ会默默照顾柳宗元，理解他的孤僻和敏感。ISFJ不会强迫柳宗元社交，只会在旁边默默陪伴。柳宗元能感受到ISFJ的温暖，ISFJ能理解柳宗元的独特。' },
+                'ESTJ': { stars: 2, name: '互相看不惯', desc: 'ESTJ觉得柳宗元太消极，柳宗元觉得ESTJ太功利。一个要行动，一个要安静；一个要效率，一个要独处。这俩人凑一块，那是互相看不顺眼。' },
+                'ESFJ': { stars: 2, name: '社恐vs社牛', desc: 'ESFJ爱社交，柳宗元爱独处。ESFJ想让柳宗元多交朋友，柳宗元想一个人静静。他俩能相处，但需要ESFJ学会尊重柳宗元的边界，给他足够的独处空间。' },
+                'ISTP': { stars: 5, name: '独行侠联盟', desc: '柳宗元和ISTP都是独行侠，都不爱解释都不爱social。他俩凑一块不需要言语，只要一起发呆一起看风景就很舒服。ISTP能理解柳宗元的孤独，柳宗元能欣赏ISTP的酷。' },
+                'ISFP': { stars: 4, name: '艺术孤品', desc: '柳宗元和ISFP都是艺术气质满满的人，都追求内心的纯粹。他俩凑一块可以一起创作一起发呆，柳宗元的文采配ISFP的审美，那是孤独者的艺术盛宴。' },
+                'ESTP': { stars: 2, name: '磁场不合', desc: 'ESTP爱浪爱热闹，柳宗元爱静爱独处。一个要刺激，一个要peace；一个在派对上high到爆，一个在家里看书发呆。他俩凑一块，ESTP会觉得柳宗元太无聊。' },
+                'ESFP': { stars: 3, name: '需要磨合', desc: 'ESFP的热情和柳宗元的冷淡形成鲜明对比。ESFP想让柳宗元开朗点，柳宗元想一个人静静。但偶尔的相处也能带来一些火花——ESFP能拉柳宗元体验一下生活的另一面。' }
+            },
+            'LY-CAT': {
+                'INTJ': { stars: 4, name: '规划型人格', desc: '陆游和INTJ都是有自己的原则和规划的人，都不轻易妥协。陆游爱国，INTJ也爱国，只是表达方式不同。他俩凑一块能聊国家大事聊军事策略，从诗词歌赋聊到天下苍生。' },
+                'INTP': { stars: 4, name: '学者气质', desc: '陆游虽然是个武将但其实很有文人气质，INTP虽然是学者但也有自己的坚持。他俩凑一块能聊诗词聊历史聊哲学，INTP能欣赏陆游的才情，陆游能理解INTP的执着。' },
+                'ENTJ': { stars: 4, name: '家国情怀', desc: '陆游和ENTJ都是想干大事的人，都有强烈的家国情怀。他俩凑一块不是在讨论北伐就是在策划收复失地，两个人的爱国热情碰撞在一起，火花四溅。' },
+                'ENTP': { stars: 3, name: '辩论搭档', desc: '陆游和ENTP都是嘴上功夫了得的人，都有自己的观点要表达。他俩凑一块能辩论国家大事，从政治聊到军事聊到诗词，ENTP负责提出问题，陆游负责慷慨激昂地回答。' },
+                'INFJ': { stars: 5, name: '精神伴侣', desc: '陆游和INFJ都是理想主义者，都为国家的前途担忧。他俩凑一块能聊人生聊理想聊未来，INFJ能理解陆游的执着，陆游能感受INFJ的深沉。两个忧国忧民的人在一起，互相取暖。' },
+                'INFP': { stars: 4, name: '浪漫主义', desc: '陆游虽然是个硬汉但也有柔软的一面，INFP也是。他俩凑一块能聊诗词聊理想聊人生，陆游的豪放配INFP的婉约，刚好互补。' },
+                'ENFJ': { stars: 4, name: '激励大师', desc: 'ENFJ能激励陆游的爱国热情，让他的北伐梦想更有动力。ENFJ的感染力配上陆游的执着，那是双倍的热情。他俩在一起，能感染周围的人一起关注国家大事。' },
+                'ENFP': { stars: 4, name: '热血组合', desc: '陆游和ENFP都是热情似火的人，都有理想都有抱负。他俩凑一块不是在聊爱国就是在聊诗词，ENFP能被陆游的执着感动，陆游能被ENFP的热情点燃。' },
+                'ISTJ': { stars: 5, name: '最佳拍档', desc: '陆游和ISTJ都是靠谱的人，都有自己的原则和坚持。ISTJ能帮陆游稳定后方，陆游能让ISTJ感受热血。一个理性一个感性，一个务实一个理想，绝配。' },
+                'ISFJ': { stars: 4, name: '温柔支持', desc: 'ISFJ会默默支持陆游的理想，照顾好家庭让他没有后顾之忧。陆游在外为理想奋斗，ISFJ在家守护温暖。这种组合很传统但很稳定。' },
+                'ESTJ': { stars: 4, name: '执行力强', desc: '陆游和ESTJ都是行动派，都讲究效率。他俩凑一块不是在搞事业就是在策划搞事业，ESTJ负责管理，陆游负责执行，配合默契。' },
+                'ESFJ': { stars: 4, name: '家庭温暖', desc: 'ESFJ能让陆游感受到家庭的温暖，让他知道有人支持他。ESFJ的热情和照顾能让陆游在为国家奋斗的同时也有一个温暖的港湾。' },
+                'ISTP': { stars: 4, name: '硬汉联盟', desc: '陆游和ISTP都是硬汉，都有武士精神。他俩凑一块可以讨论武艺讨论战术，ISTP能欣赏陆游的剑法，陆游能理解ISTP的冷静。两个不爱废话的人，友谊简单直接。' },
+                'ISFP': { stars: 4, name: '反差萌', desc: '陆游是个硬汉但爱猫，ISFP是艺术型但也有温柔的一面。他俩凑一块，陆游给ISFP讲军事，ISFP给陆游看猫片。这种反差萌，很有喜感。' },
+                'ESTP': { stars: 4, name: '冒险精神', desc: '陆游和ESTP都有冒险精神，都敢想敢做。陆游想北伐收复失地，ESTP想闯出一片天。他俩凑一块，要么是在策划大事，要么是在执行大事的路上。' },
+                'ESFP': { stars: 4, name: '活力组合', desc: 'ESFP能让陆游感受到生活的乐趣，在他为国家大事操心的同时也不忘享受生活。陆游的执着配ESFP的乐观，那是刚柔并济的组合。' }
+            },
+            'CC-BOSS': {
+                'INTJ': { stars: 4, name: '帝王谋略', desc: '曹操和INTJ都是战略家，都喜欢在脑子里规划大事。区别在于INTJ是学者型战略家，曹操是实战型枭雄。他俩凑一块能从天文聊到地理，从政治聊到军事，从诗词聊到谋略。' },
+                'INTP': { stars: 3, name: '谋士集团', desc: '曹操爱才，INTP有才。曹操能欣赏INTP的智慧，INTP能在曹操手下发挥才华。他俩的组合是"霸道总裁+学术顾问"的配置，INTP负责出谋划策，曹操负责拍板决策。' },
+                'ENTJ': { stars: 5, name: '双王争霸', desc: '曹操和ENTJ都是大佬中的大佬，凑一块要么是"我们一起打天下"，要么是"凭什么听你的"。两个都想当老大的人在一起，要么成就霸业，要么一决高下。' },
+                'ENTP': { stars: 5, name: '辩论大师', desc: '曹操和ENTP都是嘴上功夫了得的人，都不轻易服输。他俩凑一块那就是"辩论界的华山论剑"，从政治聊到军事聊到人生，ENTP出招曹操拆招，精彩绝伦。' },
+                'INFJ': { stars: 3, name: '复杂关系', desc: '曹操是实用主义者，INFJ是理想主义者。一个讲现实，一个讲情怀；一个要结果，一个要意义。但INFJ能看清曹操的野心和格局，曹操能欣赏INFJ的深度。' },
+                'INFP': { stars: 2, name: '不太搭', desc: '曹操务实直接，INFP浪漫敏感。一个在战场上杀伐决断，一个在诗词里感慨人生。他俩的价值观差异太大，相处起来会有摩擦。' },
+                'ENFJ': { stars: 4, name: '领袖气质', desc: '曹操和ENFJ都有领袖魅力，都能激励人心。ENFJ用情怀感染人，曹操用实力征服人。他俩凑一块那是"魅力双响炮"，走到哪都是焦点。' },
+                'ENFP': { stars: 4, name: '野心勃勃', desc: '曹操和ENFP都有野心，都有感染力。ENFP用热情感染人，曹操用魄力征服人。他俩凑一块能点燃一群人的激情，共同追求远大的目标。' },
+                'ISTJ': { stars: 4, name: '君臣配合', desc: '曹操和ISTJ的组合是"老板+得力干将"的标配。ISTJ负责执行细节，曹操负责把握大局；ISTJ稳重可靠，曹操果断决策。这种配合很高效。' },
+                'ISFJ': { stars: 3, name: '需要适应', desc: '曹操霸道，ISFJ温柔。一个要征服世界，一个要照顾身边人。曹操欣赏ISFJ的忠诚，ISFJ需要适应曹操的强势。这种关系需要双方都做出调整。' },
+                'ESTJ': { stars: 5, name: '霸道总裁', desc: '曹操和ESTJ都是强势领导，都有超强的执行力。他俩凑一块那是"卷王之王"组合，不是你在卷就是我在卷，工作效率高到可怕。他俩的管理风格也很像：强势、直接、结果导向。' },
+                'ESFJ': { stars: 3, name: '管理达人', desc: '曹操和ESFJ都善于管理人，只是方式不同。曹操用魄力征服，ESFJ用人情管理。他俩能一起组建高效的团队，曹操定方向，ESFJ抓落实。' },
+                'ISTP': { stars: 4, name: '武将集团', desc: '曹操和ISTP都是实用主义者，都欣赏真才实干。ISTP能在曹操手下发挥武艺，曹操能欣赏ISTP的能力。他俩的组合是"领袖+技术骨干"的配置。' },
+                'ISFP': { stars: 3, name: '需要调频', desc: '曹操是个枭雄，ISFP是个艺术家。两个人的画风不太搭，曹操务实，ISFP感性。但ISTP能在关键时刻提供支持，曹操也能给ISFP发挥的空间。' },
+                'ESTP': { stars: 5, name: '冒险搭档', desc: '曹操和ESTP都是敢于冒险的人，都敢想敢做。ESTP负责冲锋陷阵，曹操负责统筹全局。他俩凑一块那是"乱世双雄"，在战场上无人能敌。' },
+                'ESFP': { stars: 4, name: '社交高手', desc: '曹操和ESFP都是社交高手，都有超凡的魅力。曹操用领袖气质吸引人才，ESFP用个人魅力感染人心。他俩凑一块，那是"魅力天团"。' }
+            },
+            'MHR-FLAT': {
+                'INTJ': { stars: 4, name: '躺平智者', desc: '孟浩然和INTJ都是不爱社交的人，都享受独处的时光。他俩凑一块不需要寒暄不需要social，找个风景好的地方一坐就是一下午。INTJ研究宇宙，孟浩然研究人生，殊途同归。' },
+                'INTP': { stars: 5, name: '学术躺平', desc: '孟浩然和INTP都是躺平爱好者，都不爱social都不爱折腾。但他俩的躺平是有质量的躺平——一个研究自然，一个研究规律。他俩凑一块能聊哲学聊宇宙，躺平躺出学术高度。' },
+                'ENTJ': { stars: 2, name: '道不同', desc: '孟浩然想躺平，ENTJ想卷起。一个要归隐，一个要进取；一个要自由，一个要成就。ENTJ想把孟浩然拉出来搞事业，孟浩然只想继续躺。' },
+                'ENTP': { stars: 2, name: '气场不合', desc: 'ENTP爱辩论爱折腾，孟浩然想安静想躺平。ENTP的热情对孟浩然来说是负担，孟浩然的淡定对ENTP来说是挑衅。他俩凑一块，那是鸡同鸭讲。' },
+                'INFJ': { stars: 4, name: '灵魂契合', desc: '孟浩然和INFJ都是内向的理想主义者，都追求内心的平静。他俩凑一块能聊诗词聊人生聊理想，INFJ能理解孟浩然的归隐情结，孟浩然能感受INFJ的精神追求。' },
+                'INFP': { stars: 5, name: '浪漫躺平', desc: '孟浩然和INFP都是浪漫主义者，都向往简单自由的生活。他俩凑一块可以一起躺平一起写诗，"春眠不觉晓"配"岁月静好"，简直是躺平界的天花板。' },
+                'ENFJ': { stars: 2, name: '社恐崩溃', desc: 'ENFJ想拉孟浩然去social，孟浩然只想一个人待着。ENFJ的热情对孟浩然来说是社交漏斗级别的负担，孟浩然的冷淡对ENFJ来说是热情的极大挫败。' },
+                'ENFP': { stars: 3, name: '需要平衡', desc: 'ENFP爱浪爱热闹，孟浩然想安静想躺平。ENFP想带孟浩然出门，孟浩然想拉ENFP一起发呆。他俩能相处，但需要找到平衡点。' },
+                'ISTJ': { stars: 4, name: '岁月静好', desc: '孟浩然和ISTJ都是安安静静过日子的人，都不喜欢折腾。他俩凑一块能一起种菜一起喝茶，过着"日出而作日落而息"的简单生活。这种peace，正是两个人都向往的。' },
+                'ISFJ': { stars: 5, name: '温馨田园', desc: 'ISFJ会照顾孟浩然的日常，孟浩然会给ISFJ带来心灵的平静。他俩的组合是"归隐田园夫妻档"，一起种田一起写诗一起看日落。这种日子，简单又幸福。' },
+                'ESTJ': { stars: 2, name: '完全不合', desc: 'ESTJ爱工作爱效率，孟浩然想躺平想自由。ESTJ想给孟浩然安排KPI，孟浩然只想继续佛系。两个人的价值观完全相反，相处起来很累。' },
+                'ESFJ': { stars: 3, name: '需要适应', desc: 'ESFJ爱社交爱热闹，孟浩然想安静想独处。ESFJ想让孟浩然多交朋友，孟浩然想让ESFJ接受他的佛系。他俩能相处，但需要双方都做出让步。' },
+                'ISTP': { stars: 5, name: '躺平同道', desc: '孟浩然和ISTP都是躺平爱好者，都不爱social都享受自然。他俩凑一块那是"隐居二人组"，一起种田一起看风景一起享受大自然的美好。这种友谊简单纯粹。' },
+                'ISFP': { stars: 5, name: '田园诗人', desc: '孟浩然和ISFP都是审美满分的人，都追求生活的艺术。他俩凑一块可以把田园生活过成诗，孟浩然的诗配ISFP的审美，那是归隐界的艺术天花板。' },
+                'ESTP': { stars: 2, name: '气场不合', desc: 'ESTP爱冒险爱刺激，孟浩然想安静想躺平。ESTP想把孟浩然拉出去浪，孟浩然想继续在家待着。两个人的生活方式完全不一样。' },
+                'ESFP': { stars: 3, name: '需要平衡', desc: 'ESFP爱热闹爱social，孟浩然想安静想独处。ESFP的热情碰上孟浩然的淡定，就像一阵风刮过湖面。但如果能找到平衡，他俩也能和谐相处。' }
+            },
+            'HZZ-SOCIAL': {
+                'INTJ': { stars: 3, name: '反差萌', desc: '贺知章是个社牛，INTJ是个社恐。这俩人凑一块居然很和谐——INTP负责深度思考，贺知章负责活跃气氛。INTJ能欣赏贺知章的热情，贺知章能理解INTJ的内敛。' },
+                'INTP': { stars: 3, name: '话痨配哑巴', desc: '贺知章能聊，INTP能想。一个负责输出，一个负责思考。两个人的组合很神奇——贺知章把话说完，INTP把话想完，配合意外地默契。' },
+                'ENTJ': { stars: 4, name: '事业搭档', desc: '贺知章和ENTJ都是有大格局的人，都能干大事。他俩凑一块能聊政治聊人生聊理想，ENTJ负责决策，贺知章负责社交。这种组合很适合搞事业。' },
+                'ENTP': { stars: 5, name: '话痨联盟', desc: '贺知章和ENTP凑一块，那是"话痨双雄"的终极版本。两个人能聊到天昏地暗，从诗词聊到哲学，从政治聊到人生，从白天聊到黑夜。他俩凑一块就没有冷场这个词。' },
+                'INFJ': { stars: 4, name: '互补组合', desc: '贺知章外向热情，INFJ内向深沉。一个能带动气氛，一个能深度交流。他俩凑一块很互补——贺知章让INFJ感受社交的乐趣，INFJ让贺知章感受思想的深度。' },
+                'INFP': { stars: 4, name: '浪漫组合', desc: '贺知章和INFP都有浪漫的一面，都能诗词歌赋。他俩凑一块能聊诗词聊理想，贺知章的豁达配INFP的细腻，那是浪漫与浪漫的碰撞。' },
+                'ENFJ': { stars: 5, name: '社交天团', desc: '贺知章和ENFJ都是社交达人，走到哪都是人群中心。他俩凑一块那是"社交天花板"，组织聚会、活跃气氛、结交朋友，统统不在话下。' },
+                'ENFP': { stars: 5, name: '开心果组合', desc: '贺知章和ENFP凑一块，那是"欢乐制造机"。两个人都爱玩爱闹，都能把场子热起来。他俩凑一块能把一场普通的聚会变成年度大戏。' },
+                'ISTJ': { stars: 4, name: '互补关系', desc: '贺知章负责social，ISTJ负责稳定。贺知章的热情配上ISTJ的稳重，那是很好的互补。ISTJ能让贺知章的行动更有条理，贺知章能让ISTJ感受社交的乐趣。' },
+                'ISFJ': { stars: 4, name: '温馨组合', desc: '贺知章和ISFJ都是温暖的人，都善于照顾人。他俩凑一块能把社交场合变成温馨的家庭聚会，ISFJ负责细节，贺知章负责氛围。' },
+                'ESTJ': { stars: 4, name: '社交管理', desc: '贺知章和ESTJ都是社交高手，都有领导力。他俩凑一块能组织大型活动、管理社交圈子，ESTJ负责决策，贺知章负责执行。' },
+                'ESFJ': { stars: 5, name: '社交双雄', desc: '贺知章和ESFJ凑一块，那是"社交王者"组合。两个人的社交能力都是顶级的，组织聚会、活跃气氛、照顾每个人，统统不在话下。他俩在一起，人气爆棚。' },
+                'ISTP': { stars: 3, name: '需要调频', desc: '贺知章爱social，ISTP爱独处。一个要热闹，一个要安静。贺知章能理解ISTP的独处需求，ISTP能在贺知章的社交中找到自己的位置。' },
+                'ISFP': { stars: 4, name: '艺术社交', desc: '贺知章虽然爱社交但也有艺术追求，ISFP也是。他俩凑一块可以一起品酒赏诗，贺知章的热情配上ISFP的审美，那是社交与艺术的结合。' },
+                'ESTP': { stars: 5, name: '派对动物', desc: '贺知章和ESTP凑一块，那是"派对天王"的组合。两个人都爱玩都爱浪，都能high到天亮。他俩凑一块没有冷场这个词，只有"今晚更精彩"。' },
+                'ESFP': { stars: 5, name: '社交达人', desc: '贺知章和ESFP都是社交高手，都是人群中的焦点。他俩凑一块能把任何场合变成欢乐的海洋，ESFP负责表演，贺知章负责捧场。' }
+            },
+            'DM-PLAY': {
+                'INTJ': { stars: 3, name: '需要调频', desc: '杜牧风流倜傥，INTJ理性内敛。一个要浪漫，一个要逻辑。INTP能欣赏杜牧的才华，但可能不太理解他的生活方式。他俩能相处，但需要找到共同话题。' },
+                'INTP': { stars: 3, name: '反差组合', desc: '杜牧爱玩，INTP爱想。一个在烟花柳巷，一个在书斋研究。两个人的生活轨迹完全不同，但如果能互相理解，也能成为有趣的朋友。' },
+                'ENTJ': { stars: 3, name: '需要磨合', desc: '杜牧想玩，ENTJ想干事业。一个要享乐，一个要成就。两个人的价值观不太一样，但ENTJ能欣赏杜牧的才华，杜牧能欣赏ENTJ的能力。' },
+                'ENTP': { stars: 5, name: '风流双煞', desc: '杜牧和ENTP凑一块，那是"浪子组合"的终极版本。两个人都爱玩都有才，都能说会道。他俩凑一块能把青楼变课堂，把酒局变诗会，玩出格调。' },
+                'INFJ': { stars: 4, name: '灵魂对话', desc: '杜牧虽然风流但有深度，INFJ能看穿他的表象理解他的内心。他俩凑一块能聊人生聊理想，杜牧的浪漫配上INFJ的深刻，那是精神层面的交流。' },
+                'INFP': { stars: 4, name: '浪漫组合', desc: '杜牧和INFP都是浪漫主义者，都追求美好的情感体验。他俩凑一块能聊诗词聊人生，"十年一觉扬州梦"配"人生若只如初见"，简直是BE美学的双人演绎。' },
+                'ENFJ': { stars: 4, name: '人气组合', desc: '杜牧和ENFJ都是社交高手，都有魅力。他俩凑一块那是"风流才子+魅力领袖"的组合，走到哪都是人群焦点，ENFJ负责组织，杜牧负责风雅。' },
+                'ENFP': { stars: 5, name: '快乐星球', desc: '杜牧和ENFP凑一块，那是"今朝有酒今朝醉"的组合。两个人都爱玩都有趣，都能high到天亮。他俩凑一块不嗨到天亮不算完。' },
+                'ISTJ': { stars: 3, name: '需要理解', desc: '杜牧爱玩，ISTJ爱稳定。一个要自由，一个要规矩。ISTJ会觉得杜牧太放纵，杜牧会觉得ISTJ太无聊。但他俩如果能互相理解，也能成为朋友。' },
+                'ISFJ': { stars: 3, name: '需要调频', desc: '杜牧的风流和ISFJ的传统有点冲突。ISFJ想要稳定的生活，杜牧想要刺激的体验。但ISFJ能欣赏杜牧的才华，杜牧能感谢ISFJ的包容。' },
+                'ESTJ': { stars: 3, name: '不太搭', desc: '杜牧想玩，ESTJ想干。两个人的价值观不太一样，ESTJ会觉得杜牧不务正业，杜牧会觉得ESTJ太无聊。但他们能和平共处。' },
+                'ESFJ': { stars: 4, name: '社交达人', desc: '杜牧和ESFJ都是社交高手，都能玩到一起。他俩凑一块能组织有趣的社交活动，ESFJ负责组织，杜牧负责风雅。这种组合很适合搞社交。' },
+                'ISTP': { stars: 4, name: '酷哥组合', desc: '杜牧和ISTP都是酷酷的人，都有独特的生活方式。他俩凑一块不需要解释不需要social，ISTP能理解杜牧的风流，杜牧能欣赏ISTP的酷。' },
+                'ISFP': { stars: 5, name: '艺术浪子', desc: '杜牧和ISFP都是审美满分的人，都追求生活的艺术。他俩凑一块能把日子过成诗，杜牧写诗ISFP作画，一起享受生活的美好。这种组合很风雅。' },
+                'ESTP': { stars: 5, name: '夜店兄弟', desc: '杜牧和ESTP凑一块，那是"夜生活天花板"的组合。两个人都爱玩都敢玩，ESTP负责行动，杜牧负责浪漫。他俩凑一块能把扬州城的夜生活玩出花来。' },
+                'ESFP': { stars: 5, name: '派对搭档', desc: '杜牧和ESFP凑一块，那是"风流才子+派对女王"的组合。两个人都能high能玩，都能把场子热起来。他俩凑一块没有冷场这个词。' }
+            },
+            'WAS-RULE': {
+                'INTJ': { stars: 5, name: '变法同盟', desc: '王安石和INTJ都是改革派，都有战略眼光和执行魄力。他俩凑一块能从政治聊到经济，从变法聊到宇宙真理。两个人都是"我要改变世界"的主儿，简直是绝配。' },
+                'INTP': { stars: 4, name: '学术搭档', desc: '王安石务实，INTP爱想。一个搞变法，一个研究理论。两个人的组合很互补——INTP提供理论基础，王安石负责实践验证。' },
+                'ENTJ': { stars: 4, name: '双雄争霸', desc: '王安石和ENTJ都是强势领导者，都有超强的执行力。他俩凑一块要么是"我们一起卷死别人"，要么是"凭什么听你的"。两个都想当老大的人，火花肯定不少。' },
+                'ENTP': { stars: 4, name: '改革辩论', desc: '王安石和ENTP都喜欢辩论，都能说会道。他俩凑一块能从变法聊到哲学，从经济聊到人生。ENTP出招王安石拆招，王安石出新招ENTP继续挖坑。' },
+                'INFJ': { stars: 3, name: '复杂关系', desc: '王安石是实用主义者，INFJ是理想主义者。一个讲现实，一个讲情怀。INFJ能理解王安石的理想，但不一定认同他的方法。他俩的关系有点微妙。' },
+                'INFP': { stars: 2, name: '不太搭', desc: '王安石强势直接，INFP敏感浪漫。一个要效率，一个要感受；一个要变法，一个要稳定。两个人的价值观差异很大，相处起来会有摩擦。' },
+                'ENFJ': { stars: 4, name: '领袖组合', desc: '王安石和ENFJ都有领导力，都能激励人心。ENFJ用情怀感染人，王安石用品格征服人。他俩凑一块能带动一群人跟着干大事。' },
+                'ENFP': { stars: 3, name: '需要磨合', desc: '王安石太严肃，ENFP太活泼。一个要效率，一个要快乐；一个讲规矩，一个要自由。他俩能相处，但需要找到平衡点。' },
+                'ISTJ': { stars: 4, name: '保守派支持', desc: '王安石推行新法，ISTJ维护传统。虽然立场不同，但ISTJ能欣赏王安石的魄力和原则，他俩的辩论是"理想vs现实"的精彩对决。' },
+                'ISFJ': { stars: 3, name: '不太理解', desc: '王安石推行新法，ISFJ重视传统。两个人的立场不太一样，ISFJ可能不太理解王安石的激进。但王安石能欣赏ISFJ的忠诚。' },
+                'ESTJ': { stars: 5, name: '铁腕组合', desc: '王安石和ESTJ都是铁腕人物，都有超强的执行力和控制欲。他俩凑一块那是"卷王之王"组合，不是你在卷就是我在卷，身边的人都会被卷哭。' },
+                'ESFJ': { stars: 3, name: '需要调频', desc: '王安石严肃，ESFJ热情。一个要效率，一个要人情。ESFJ能理解王安石的理想，但不一定认同他的方法。他俩需要互相适应。' },
+                'ISTP': { stars: 3, name: '独立思考', desc: '王安石有主见，ISTP也有主见。他俩凑一块能讨论问题能辩论，但不会轻易被对方说服。这种独立的友谊很珍贵。' },
+                'ISFP': { stars: 2, name: '不太搭', desc: '王安石太严肃，ISFP太随性。一个要变法，一个要自由；一个讲效率，一个讲感受。两个人的画风完全不一样。' },
+                'ESTP': { stars: 4, name: '行动派', desc: '王安石和ESTP都是行动派，都敢想敢做。王安石推行新法，ESTP负责执行。他俩凑一块效率高得吓人，就是身边的人会被卷死。' },
+                'ESFP': { stars: 3, name: '需要平衡', desc: '王安石太严肃，ESFP太活泼。一个要工作，一个要享乐。他俩能相处，但ESFP会让王安石偶尔放松，王安石会让ESFP偶尔正经。' }
+            },
+            'YXJ-FREE': {
+                'INTJ': { stars: 4, name: '独立女性', desc: '鱼玄机和INTJ都是独立自主的人，都有自己的想法和追求。她俩凑一块能聊人生聊理想，INTJ能欣赏鱼玄机的才情，鱼玄機能欣赏INTJ的理性。' },
+                'INTP': { stars: 5, name: '学术闺蜜', desc: '鱼玄机和INTP都是才女，都爱研究都有深度。她俩凑一块能聊诗词聊哲学，从文学聊到玄学，INTP能欣赏鱼玄机的才情，鱼玄機能理解INTP的思考。' },
+                'ENTJ': { stars: 3, name: '强势组合', desc: '鱼玄机和ENTJ都是强势女性，都有主见都有魄力。她俩凑一块要么是"我们一起搞事业"，要么是"凭什么听你的"。两个都要当老大的人，需要磨合。' },
+                'ENTP': { stars: 5, name: '辩论搭档', desc: '鱼玄机和ENTP都是能说会道的人，都能辩论都能抬杠。她俩凑一块那是"古代女知识分子辩论赛"，从诗词吵到人生，精彩程度不输现代奇葩说。' },
+                'INFJ': { stars: 5, name: '灵魂知己', desc: '鱼玄机和INFJ都是精神追求者，都向往深刻的情感连接。她俩凑一块能聊诗词聊人生聊理想，INFJ能理解鱼玄机的孤独，鱼玄機能感受到INFJ的共鸣。' },
+                'INFP': { stars: 5, name: '浪漫灵魂', desc: '鱼玄机和INFP都是浪漫主义者，都追求纯粹的爱情和自由。她俩凑一块能聊诗词聊情感，"易求无价宝，难得有心郎"配"愿得一人心"，简直是灵魂伴侣。' },
+                'ENFJ': { stars: 4, name: '激励组合', desc: 'ENFJ能激励鱼玄机的理想，让她的才华得到更大的发挥。ENFJ的感染力配上鱼玄机的才情，那是"才女+伯乐"的组合，能成就一段佳话。' },
+                'ENFP': { stars: 5, name: '先锋姐妹', desc: '鱼玄机和ENFP都是先锋女性，都不care传统束缚。她俩凑一块那是"女性觉醒姐妹花"，一个用才华，一个用热情，一起对抗那个时代的不公。' },
+                'ISTJ': { stars: 3, name: '需要理解', desc: '鱼玄机追求自由，ISTJ讲究传统。她俩的观念有点冲突，但ISTJ能欣赏鱼玄机的才华，鱼玄機能理解ISTJ的坚持。他俩能和平共处。' },
+                'ISFJ': { stars: 3, name: '传统vs先锋', desc: '鱼玄机先锋，ISFJ传统。她俩的价值观不太一样，但ISFJ能照顾鱼玄机的日常，鱼玄機能给ISFJ带来新的视角。他俩能互补。' },
+                'ESTJ': { stars: 3, name: '强势对决', desc: '鱼玄机和ESTJ都是强势女性，都有主见都有执行力。她俩凑一块要么合作要么对抗，就看谁能说服谁了。' },
+                'ESFJ': { stars: 4, name: '社交搭档', desc: 'ESFJ能帮鱼玄机处理社交关系，鱼玄機能给ESFJ带来文化底蕴。她俩凑一块能组织有趣的聚会，鱼玄機负责才华，ESFJ负责组织。' },
+                'ISTP': { stars: 4, name: '酷girl联盟', desc: '鱼玄机和ISTP都是酷酷的女性，都有独立的思想。她俩凑一块不需要解释不需要social，ISTP能理解鱼玄机的追求，鱼玄機能欣赏ISTP的冷静。' },
+                'ISFP': { stars: 5, name: '艺术灵魂', desc: '鱼玄机和ISFP都是审美满分的人，都追求生活的艺术。她俩凑一块能一起写诗一起赏花，鱼玄机的才情配ISFP的审美，那是才女组合。' },
+                'ESTP': { stars: 4, name: '冒险搭档', desc: '鱼玄机和ESTP都是敢想敢做的女性，都不care世俗眼光。她俩凑一块能浪到飞起，鱼玄機负责浪漫，ESTP负责行动。' },
+                'ESFP': { stars: 5, name: '社交女王', desc: '鱼玄机和ESFP都是社交高手，都有超凡的魅力。她俩凑一块能把场子热起来，鱼玄機负责才华输出，ESFP负责气氛烘托。' }
+            },
+            'QY-SAD': {
+                'INTJ': { stars: 4, name: '理想主义', desc: '屈原和INTJ都是理想主义者，都想改变世界。不同的是INTJ用策略，屈原用情怀。他俩凑一块能聊政治聊哲学聊人生，从宇宙真理聊到家国情怀。' },
+                'INTP': { stars: 5, name: '学术搭档', desc: '屈原和INTP都是爱思考的人，都喜欢在精神层面探索。他俩凑一块能从诗词聊到哲学，INTP能欣赏屈原的才情，屈原能理解INTP的执着。' },
+                'ENTJ': { stars: 3, name: '需要磨合', desc: '屈原太理想，ENTJ太务实。一个要情怀，一个要结果。ENTJ能欣赏屈原的才华，但不一定认同他的方式。他俩能相处，但需要互相理解。' },
+                'ENTP': { stars: 4, name: '辩论组合', desc: '屈原和ENTP都是能说会道的人，都能辩论都能表达。他俩凑一块能从政治聊到哲学，ENTP出招屈原接招，精彩程度满分。' },
+                'INFJ': { stars: 5, name: '精神伴侣', desc: '屈原和INFJ都是理想主义者，都为国家的前途担忧，都不愿意妥协。他俩凑一块能聊人生聊理想聊未来，INFJ能完全理解屈原的孤独和坚持。' },
+                'INFP': { stars: 5, name: '灵魂共鸣', desc: '屈原和INFP都是浪漫主义者，都追求纯粹和高尚。他俩凑一块能聊诗词聊人生，"路漫漫其修远兮"配"愿你出走半生归来仍是少年"，简直是灵魂的对话。' },
+                'ENFJ': { stars: 4, name: '激励大师', desc: 'ENFJ能激励屈原的理想，让他的爱国情怀更有力量。ENFJ的感染力配上屈原的执着，那是"理想主义者"的共鸣。他俩在一起，能影响更多人。' },
+                'ENFP': { stars: 4, name: '热情组合', desc: '屈原太沉重，ENFP太活泼。一个要悲伤，一个要快乐。但ENFP的热情能照亮屈原的忧郁，屈原的深度能让ENFP思考更多。' },
+                'ISTJ': { stars: 4, name: '忠诚搭档', desc: '屈原和ISTJ都是忠诚的人，都有自己的原则和坚持。ISTJ能理解屈原的执着，屈原能欣赏ISTJ的可靠。他俩的忠诚是对国家和理想的忠诚。' },
+                'ISFJ': { stars: 4, name: '温柔守护', desc: 'ISFJ会默默支持屈原，理解他的孤独和坚持。ISFJ的包容是屈原的精神港湾，虽然不能解决问题，但能给予温暖。' },
+                'ESTJ': { stars: 3, name: '不太理解', desc: '屈原太理想，ESTJ太务实。两个人的价值观不太一样，ESTJ会觉得屈原太固执，屈原会觉得ESTJ太现实。但他们能和平共处。' },
+                'ESFJ': { stars: 3, name: '需要调频', desc: '屈原沉重，ESFJ热情。一个要悲伤，一个要快乐。ESFJ想让屈原开心点，屈原想让ESFJ理解他的痛苦。他俩需要互相适应。' },
+                'ISTP': { stars: 4, name: '独立思考', desc: '屈原和ISTP都是独立思考的人，都不愿意随波逐流。他俩凑一块能讨论问题能辩论，ISTP能理解屈原的坚持，屈原能欣赏ISTP的独立。' },
+                'ISFP': { stars: 4, name: '艺术灵魂', desc: '屈原和ISFP都是艺术气质满满的人，都追求美和纯粹。屈原写诗ISFP欣赏，那是精神层面的交流。他俩的审美高度一致。' },
+                'ESTP': { stars: 2, name: '反差太大', desc: '屈原太沉重，ESTP太活泼。一个在悲伤，一个在快乐。ESTP想把屈原拉出来high，屈原只想一个人悲伤。这个组合需要很大的磨合。' },
+                'ESFP': { stars: 3, name: '需要平衡', desc: '屈原太emo，ESFP太嗨。一个要悲伤，一个要快乐。ESFP想让屈原感受生活的美好，屈原想让ESFP理解他的痛苦。他俩需要互相理解。' }
+            },
+            'NL-LOVE': {
+                'INTJ': { stars: 4, name: '深度人格', desc: '纳兰性德和INTJ都是内心丰富的人，都喜欢深度思考。他俩凑一块能从诗词聊到哲学，INTJ能理解纳兰的深情，纳兰能欣赏INTJ的理性。' },
+                'INTP': { stars: 5, name: '灵魂对话', desc: '纳兰性德和INTP都是精神追求者，都喜欢思考人生的意义。他俩凑一块能从诗词聊到宇宙，纳兰的才情配INTP的逻辑，那是灵魂层面的交流。' },
+                'ENTJ': { stars: 3, name: '需要理解', desc: '纳兰太感性，ENTJ太理性。一个讲情感，一个讲效率。ENTJ能欣赏纳兰的才华，但不一定理解他的emo。他俩能相处，但需要互相适应。' },
+                'ENTP': { stars: 4, name: '互补组合', desc: '纳兰太emo，ENTP太理性。一个在悲伤，一个在辩论。但ENTP能帮纳兰分析情感，纳兰能让ENTP感受浪漫。这种互补很有趣。' },
+                'INFJ': { stars: 5, name: 'soulmate', desc: '纳兰性德和INFJ都是深情的人，都追求纯粹的爱情和理想。他俩凑一块能聊诗词聊人生，"人生若只如初见"配"懂你无需言语"，简直是灵魂伴侣。' },
+                'INFP': { stars: 5, name: '纯爱战士', desc: '纳兰性德和INFP都是纯爱战神，都能把感情写成诗。他俩凑一块那是"BE美学天花板"，一个人写"当时只道是寻常"，另一个人写"愿得一人心"。' },
+                'ENFJ': { stars: 4, name: '治愈组合', desc: 'ENFJ能治愈纳兰的emo，让他的才华得到更大的发挥。ENFJ的热情配上纳兰的才情，那是"深情才子+温暖领袖"的组合，能感染很多人。' },
+                'ENFP': { stars: 4, name: '浪漫组合', desc: '纳兰太沉重，ENFP太活泼。一个在悲伤，一个在快乐。但ENFP的热情能照亮纳兰的忧郁，纳兰的深情能让ENFP思考更多。' },
+                'ISTJ': { stars: 4, name: '反差组合', desc: '纳兰感性，ISTJ理性。一个讲情感，一个讲原则。但ISTJ能欣赏纳兰的才情，纳兰能感激ISTJ的稳定。这种反差有时候很有趣。' },
+                'ISFJ': { stars: 5, name: '温柔守护', desc: 'ISFJ能守护纳兰的深情，给他一个温暖的港湾。ISFJ的包容是纳兰的精神寄托，他能感受到被理解被接纳的温暖。' },
+                'ESTJ': { stars: 3, name: '不太理解', desc: '纳兰太感性，ESTJ太务实。两个人的画风不太一样，ESTJ会觉得纳兰太矫情。但他们能和平共处。' },
+                'ESFJ': { stars: 4, name: '温馨组合', desc: 'ESFJ能让纳兰感受到温暖，让他暂时忘记悲伤。ESFJ的热情配纳兰的才情，那是"深情才子+温暖使者"的组合，能治愈人心。' },
+                'ISTP': { stars: 4, name: '安静陪伴', desc: '纳兰和ISTP都是不爱解释的人，都活在自己的世界里。他俩凑一块不需要多话，ISTP能理解纳兰的孤独，纳兰能欣赏ISTP的酷。' },
+                'ISFP': { stars: 5, name: '艺术灵魂', desc: '纳兰和ISFP都是审美满分的人，都追求生活的艺术。他俩凑一块能一起创作一起欣赏，纳兰写词ISFP配图，那是才子佳人的组合。' },
+                'ESTP': { stars: 3, name: '需要平衡', desc: '纳兰太emo，ESTP太嗨。一个要悲伤，一个要快乐。ESTP想拉纳兰去high，纳兰想一个人静静。他俩需要找到平衡点。' },
+                'ESFP': { stars: 4, name: '治愈系', desc: 'ESFP能让纳兰暂时忘记悲伤，感受生活的美好。纳兰的才情配ESFP的热情，那是"一边流泪一边跳舞"的组合，悲喜交加刚刚好。' }
+            },
+            'CS-HARD': {
+                'INTJ': { stars: 3, name: '战略边塞', desc: '岑参和INTJ都是爱思考的人，都有自己的战略眼光。岑参写诗记录边塞风云，INTP分析战场局势。他俩凑一块能从军事聊到诗词，从诗词聊到宇宙。' },
+                'INTP': { stars: 4, name: '学术探险', desc: '岑参爱冒险，INTP爱研究。一个在边塞看风景，一个在书斋想问题。两个人的组合很互补——岑参提供一手素材，INTP提供理论分析。' },
+                'ENTJ': { stars: 4, name: '事业搭档', desc: '岑参和ENTJ都有远大的理想，都有行动力。岑参去边塞建功立业，ENTJ在朝堂运筹帷幄。他俩凑一块那是"文武双全"的组合，能干大事。' },
+                'ENTP': { stars: 5, name: '冒险双煞', desc: '岑参和ENTP都是不安分的人，都爱冒险都爱折腾。他俩凑一块那就是"边塞探险家"的组合，岑参写诗记录冒险，ENTP出谋划策，一路火花四溅。' },
+                'INFJ': { stars: 4, name: '理想共鸣', desc: '岑参和INFJ都有家国情怀，都想为国家做贡献。岑参去边塞，INFJ在后方支持。他俩凑一块能聊理想聊未来，INFJ能理解岑参的选择。' },
+                'INFP': { stars: 4, name: '浪漫边塞', desc: '岑参虽然是个硬汉但也有浪漫的一面，INFP也是。他俩凑一块能聊诗词聊理想，"忽如一夜春风来"配"诗和远方"，那是理想主义的碰撞。' },
+                'ENFJ': { stars: 4, name: '激励组合', desc: 'ENFJ能激励岑参的理想，让他的边塞冒险更有意义。ENFJ的感染力配上岑参的经历，那是"冒险家+领袖"的组合，能激励很多人。' },
+                'ENFP': { stars: 5, name: '热血组合', desc: '岑参和ENFP都是热情似火的人，都爱冒险都有活力。他俩凑一块那就是"边塞公路片"的剧本，岑参负责经历，ENFP负责传播，一路精彩连连。' },
+                'ISTJ': { stars: 4, name: '稳中带浪', desc: '岑参爱冒险，ISTJ爱稳定。一个要浪，一个要稳。但ISTJ能让岑参的行动更有条理，岑参能让ISTJ感受刺激的乐趣。这种互补很有趣。' },
+                'ISFJ': { stars: 4, name: '温馨后盾', desc: 'ISFJ会默默支持岑参的冒险，照顾好家庭让他没有后顾之忧。岑参在外冒险，ISFJ在家守护。这种组合很温馨。' },
+                'ESTJ': { stars: 5, name: '铁血搭档', desc: '岑参和ESTJ都是铁血男儿，都有超强的执行力。岑参在边塞冲锋，ESTJ在后方管理。他俩凑一块那是"铁血战队"，效率高得吓人。' },
+                'ESFJ': { stars: 4, name: '人气组合', desc: 'ESFJ能让岑参感受到家的温暖，岑参能给ESFJ带来刺激的故事。他俩凑一块那是"冒险家+后勤部长"的组合，配合默契。' },
+                'ISTP': { stars: 5, name: '硬汉联盟', desc: '岑参和ISTP都是硬汉，都爱冒险都爱极限运动。他俩凑一块那是"极限运动二人组"，岑参写诗记录刺激，ISTP负责技术分析。' },
+                'ISFP': { stars: 4, name: '艺术边塞', desc: '岑参写诗记录边塞风光，ISFP能欣赏能共鸣。他俩凑一块能从诗词聊到审美，岑参的经历配上ISFP的视角，那是边塞美学的完美呈现。' },
+                'ESTP': { stars: 5, name: '冒险兄弟', desc: '岑参和ESTP都是冒险家，都敢想敢做敢当。他俩凑一块那是"边塞特种兵"的组合，今天爬雪山明天过大漠，一路刺激一路嗨。' },
+                'ESFP': { stars: 5, name: '派对边塞', desc: '岑参和ESFP都是爱热闹的人，都能high能浪。他俩凑一块能把边塞的艰苦生活过成诗，ESFP负责嗨，岑参负责记录，好不快活。' }
+            }
+        };
+
+        // 生成星级显示
+        function generateStars(count) {
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                if (i < count) {
+                    stars += '<span class="star">★</span>';
+                } else {
+                    stars += '<span class="empty">☆</span>';
+                }
+            }
+            return stars;
+        }
+
+        // 获取MBTI分组
+        function getMBTIGroup(type) {
+            const second = type[1];
+            if (second === 'N') return 'nt';
+            if (second === 'F') return 'nf';
+            if (second === 'S') {
+                return type[2] === 'J' ? 'sj' : 'sp';
+            }
+            return 'sp';
+        }
+
+        // 渲染首页
+        function renderHomePage() {
+            const grid = document.getElementById('poetsGrid');
+            grid.innerHTML = poets.map(poet => {
+                const imageUrl = poetImages[poet.code];
+                return `
+                    <div class="poet-card" onclick="showDetail('${poet.code}')">
+                        <div class="poet-avatar">
+                            ${imageUrl ? `<img src="${imageUrl}" alt="${poet.name}" onerror="this.parentElement.innerHTML='<div class=\\'avatar-placeholder\\' style=\\'background: linear-gradient(135deg, var(--accent-red), var(--accent-gold))\\'>${poet.code.substring(0,2)}</div>'">` : `<div class="avatar-placeholder" style="background: linear-gradient(135deg, var(--accent-red), var(--accent-gold))">${poet.code.substring(0,2)}</div>`}
+                        </div>
+                        <div class="poet-code">${poet.mbti} · ${poet.code}</div>
+                        <div class="poet-name">${poet.name}</div>
+                        <div class="poet-tags">
+                            ${poet.tags.map(tag => `<span class="poet-tag">${tag}</span>`).join('')}
+                        </div>
+                        <button class="view-btn">16 种 MBTI 组合 →</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 显示详情页
+        function showDetail(poetCode) {
+            const poet = poets.find(p => p.code === poetCode);
+            if (!poet) return;
+
+            // 更新面包屑
+            document.getElementById('breadcrumbPoet').textContent = `${poet.code}（${poet.name}）`;
+
+            // 更新头部信息
+            const imageUrl = poetImages[poet.code];
+            document.getElementById('detailAvatar').innerHTML = imageUrl 
+                ? `<img src="${imageUrl}" alt="${poet.name}" onerror="this.parentElement.innerHTML='<div class=\\'avatar-placeholder\\' style=\\'background: linear-gradient(135deg, var(--accent-red), var(--accent-gold)); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #fff;\\'>${poet.code.substring(0,2)}</div>'">` 
+                : `<div class="avatar-placeholder" style="background: linear-gradient(135deg, var(--accent-red), var(--accent-gold)); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #fff;">${poet.code.substring(0,2)}</div>`;
+            document.getElementById('detailCode').textContent = `${poet.mbti} · ${poet.code}`;
+            document.getElementById('detailTitle').textContent = `${poet.name}（${poet.code}）的 MBTI 交叉解读`;
+            document.getElementById('detailDesc').textContent = poet.desc;
+            document.getElementById('mbtiSectionTitle').textContent = `${poet.code}（${poet.name}）的 16 种 MBTI 组合`;
+
+            // 渲染MBTI卡片
+            const poetData = crossAnalysis[poetCode];
+            const mbtiGrid = document.getElementById('mbtiGrid');
+            mbtiGrid.innerHTML = mbtiTypes.map(mbti => {
+                const data = poetData[mbti.type];
+                const group = getMBTIGroup(mbti.type);
+                return `
+                    <div class="mbti-card ${group}">
+                        <div class="mbti-card-header">
+                            <div class="mbti-card-title">${poet.code} <span>×</span> ${mbti.type}</div>
+                            <div class="mbti-stars">${generateStars(data.stars)}</div>
+                        </div>
+                        <div class="mbti-combo-name">${data.name}</div>
+                        <div class="mbti-combo-desc">${data.desc}</div>
+                    </div>
+                `;
+            }).join('');
+
+            // 切换页面
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('detailPage').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // 返回首页
+        function showHome() {
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('detailPage').classList.remove('active');
+            window.scrollTo(0, 0);
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHomePage();
+        });
+    </script>
+</body>
+</html>
